@@ -1,0 +1,45 @@
+/* skills-globe.css — appearance of the Devicon skill nodes on the 3D CSS3D sphere.
+   Colours use the site's orange accent (#d4af37) and can be re-themed freely. */
+#skills-globe {
+  cursor: grab;
+}
+#skills-globe:active {
+  cursor: grabbing;
+}
+
+.skill-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 66px;
+  padding: 8px 6px;
+  border-radius: 12px;
+  background: rgba(30, 30, 30, 0.55);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.06);
+  backdrop-filter: blur(2px);
+  user-select: none;
+  cursor: grab;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.skill-node:hover {
+  border-color: rgba(212, 175, 55, 0.7);
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.35);
+  transform: scale(1.12);
+}
+.skill-node i {
+  font-size: 28px;
+  line-height: 1;
+}
+/* dark-brand icons (Next.js, Rust, Three.js, iOS, …) get a white glow so they read on the dark globe */
+.skill-node i.is-dark {
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.85), 0 0 11px rgba(255, 255, 255, 0.5);
+}
+.skill-node span {
+  font-family: "Geist Mono", "Geist Mono Fallback", monospace;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: #8b949e;
+  white-space: nowrap;
+}

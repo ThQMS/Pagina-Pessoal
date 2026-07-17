@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta name="theme-color" content="#101010"/><title>Thiago Henrique | Engenheiro de Software Full Stack</title><meta content="Thiago Henrique — Engenheiro de Software Full Stack (Node.js, TypeScript, React, Python) com formação em segurança defensiva (Blue Team). 3 anos construindo sistemas web escaláveis, da arquitetura à entrega." name="description"/><meta content="Thiago Henrique" name="author"/><link href="https://github.com/ThQMS" rel="canonical"/><meta content="Thiago Henrique — Engenheiro de Software Full Stack" property="og:title"/><meta content="website" property="og:type"/><meta content="assets/images/foto_thiago.jpg" property="og:image"/><link href="assets/images/foto_thiago.jpg" rel="icon" type="image/jpeg"/><link href="assets/images/foto_thiago.jpg" rel="apple-touch-icon"/>
+
+<!-- fonts — Geist + Geist Mono variable faces (declared in style_002.css); the woff2 are preloaded -->
+<link as="font" crossorigin="" href="assets/fonts/s.p.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="assets/fonts/s.p_2.woff2" rel="preload" type="font/woff2"/>
+<link as="image" href="assets/images/foto_thiago.jpg" rel="preload"/>
+
+<!-- css -->
+<!-- style_002.css — @font-face for Geist / Geist Mono + the body font-variable classes -->
+<link href="assets/css/style_002.css" rel="stylesheet"/>
+<!-- style_003_gold.css — main Tailwind build re-themed (black/gold/wine): colour tokens, utilities, keyframes, grid-bg & cursor-glow decor -->
+<link href="assets/css/style_003_gold.css" rel="stylesheet"/>
+<!-- style_004_gold.css — small helpers re-themed: hide-scrollbar, terminal-cursor, gradient-text, box-glow, focus rings -->
+<link href="assets/css/style_004_gold.css" rel="stylesheet"/>
+<!-- devicon.min.css — Devicon icon-font stylesheet loaded by the original -->
+<link href="assets/css/devicon.min.css" rel="stylesheet"/>
+<!-- scroll-fixes.css — extracted from the inline scroll-fix style block -->
+<link href="assets/css/scroll-fixes.css" rel="stylesheet"/>
+<!-- skills-globe.css — styling for the 3D skill-icon nodes -->
+<link href="assets/css/skills-globe.css" rel="stylesheet"/>
+<!-- effects.css — ambient dev/architecture effects: matrix rain, compile bar, blueprint spine -->
+<link href="assets/css/effects.css" rel="stylesheet"/>
+
+<!-- import map — resolves the "three" ES module + addons from a CDN for the skills globe -->
+<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script>
+
+<!-- structured data (JSON-LD) — kept inline as required; not user-visible -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Thiago Henrique","alternateName":["ThQMS","Thiago Henrique Queiroz Muniz Silva"],"url":"https://github.com/ThQMS","sameAs":["https://github.com/ThQMS","https://www.linkedin.com/in/thiago-henrique-queiroz-muniz-silva-b91311249"],"jobTitle":"Engenheiro de Software Full Stack","worksFor":{"@type":"Organization","name":"Jeito Frio Sorvetes"},"email":"thqueirozsilva@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Campo Grande","addressRegion":"MS","addressCountry":"BR"},"alumniOf":{"@type":"EducationalOrganization","name":"UNIGRAN"},"knowsAbout":["Engenharia de Software","Full Stack","Node.js","TypeScript","React","Next.js","Python","Django","FastAPI","Laravel","PostgreSQL","MongoDB","Redis","Docker","Segurança Defensiva","Blue Team","LGPD"]}</script>
+</head>
+<body class="geist_a71539c9-module__T19VSG__variable geist_mono_8d43a2aa-module__8Li5zG__variable antialiased">
+
+<!-- app-shell -->
+<div class="min-h-screen bg-dark-200 text-foreground relative overflow-x-hidden">
+<div class="cursor-glow hidden lg:block"></div>
+<div class="fixed inset-0 grid-bg pointer-events-none z-0"></div>
+
+<!-- right-rail-nav (lg only) -->
+<div class="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-center gap-4">
+<div class="absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-orange-500/20 to-transparent -z-10"></div>
+<button aria-label="Início" class="group relative flex items-center justify-center w-12 h-12 transition-all duration-300 outline-none focus:outline-none">
+<div class="absolute right-14 px-3 py-1.5 rounded-md bg-dark-100 border border-orange-500/20 text-xs font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 pointer-events-none shadow-[0_0_15px_rgba(6,182,212,0.1)] flex items-center gap-2"><span class="text-orange-400">&gt;</span><span class="text-orange-400 font-bold">Início</span></div>
+<div class="relative w-full h-full flex items-center justify-center">
+<div class="absolute inset-0 m-auto rounded-full border border-orange-500/50 transition-all duration-500 ease-out w-full h-full opacity-100 rotate-180 scale-100" style="border-style:dashed;"></div>
+<div class="rounded-full transition-all duration-300 ease-out flex items-center justify-center relative z-10 w-8 h-8 bg-dark-200 border border-orange-400 text-orange-400 shadow-[0_0_20px_rgba(34,211,238,0.4)]"><i data-lucide="code-xml" class="w-4 h-4 opacity-100 scale-100"></i></div>
+</div>
+</button>
+<button aria-label="Sobre" class="group relative flex items-center justify-center w-12 h-12 transition-all duration-300 outline-none focus:outline-none">
+<div class="absolute right-14 px-3 py-1.5 rounded-md bg-dark-100 border border-orange-500/20 text-xs font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 pointer-events-none shadow-[0_0_15px_rgba(6,182,212,0.1)] flex items-center gap-2"><span class="text-orange-400">&gt;</span><span class="text-muted-foreground">Sobre</span></div>
+<div class="relative w-full h-full flex items-center justify-center">
+<div class="absolute inset-0 m-auto rounded-full border border-orange-500/50 transition-all duration-500 ease-out w-4 h-4 opacity-0 rotate-0 scale-0" style="border-style:dashed;"></div>
+<div class="rounded-full transition-all duration-300 ease-out flex items-center justify-center relative z-10 w-3 h-3 bg-dark-300 border border-dark-400 group-hover:w-4 group-hover:h-4 group-hover:border-orange-400/50 group-hover:bg-orange-500/20"><i data-lucide="terminal" class="w-0 h-0 opacity-0 scale-0"></i></div>
+</div>
+</button>
+<button aria-label="Habilidades" class="group relative flex items-center justify-center w-12 h-12 transition-all duration-300 outline-none focus:outline-none">
+<div class="absolute right-14 px-3 py-1.5 rounded-md bg-dark-100 border border-orange-500/20 text-xs font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 pointer-events-none shadow-[0_0_15px_rgba(6,182,212,0.1)] flex items-center gap-2"><span class="text-orange-400">&gt;</span><span class="text-muted-foreground">Habilidades</span></div>
+<div class="relative w-full h-full flex items-center justify-center">
+<div class="absolute inset-0 m-auto rounded-full border border-orange-500/50 transition-all duration-500 ease-out w-4 h-4 opacity-0 rotate-0 scale-0" style="border-style:dashed;"></div>
+<div class="rounded-full transition-all duration-300 ease-out flex items-center justify-center relative z-10 w-3 h-3 bg-dark-300 border border-dark-400 group-hover:w-4 group-hover:h-4 group-hover:border-orange-400/50 group-hover:bg-orange-500/20"><i data-lucide="cpu" class="w-0 h-0 opacity-0 scale-0"></i></div>
+</div>
+</button>
+<button aria-label="Experiência" class="group relative flex items-center justify-center w-12 h-12 transition-all duration-300 outline-none focus:outline-none">
+<div class="absolute right-14 px-3 py-1.5 rounded-md bg-dark-100 border border-orange-500/20 text-xs font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 pointer-events-none shadow-[0_0_15px_rgba(6,182,212,0.1)] flex items-center gap-2"><span class="text-orange-400">&gt;</span><span class="text-muted-foreground">Experiência</span></div>
+<div class="relative w-full h-full flex items-center justify-center">
+<div class="absolute inset-0 m-auto rounded-full border border-orange-500/50 transition-all duration-500 ease-out w-4 h-4 opacity-0 rotate-0 scale-0" style="border-style:dashed;"></div>
+<div class="rounded-full transition-all duration-300 ease-out flex items-center justify-center relative z-10 w-3 h-3 bg-dark-300 border border-dark-400 group-hover:w-4 group-hover:h-4 group-hover:border-orange-400/50 group-hover:bg-orange-500/20"><i data-lucide="git-branch" class="w-0 h-0 opacity-0 scale-0"></i></div>
+</div>
+</button>
+<button aria-label="Projetos" class="group relative flex items-center justify-center w-12 h-12 transition-all duration-300 outline-none focus:outline-none">
+<div class="absolute right-14 px-3 py-1.5 rounded-md bg-dark-100 border border-orange-500/20 text-xs font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 pointer-events-none shadow-[0_0_15px_rgba(6,182,212,0.1)] flex items-center gap-2"><span class="text-orange-400">&gt;</span><span class="text-muted-foreground">Projetos</span></div>
+<div class="relative w-full h-full flex items-center justify-center">
+<div class="absolute inset-0 m-auto rounded-full border border-orange-500/50 transition-all duration-500 ease-out w-4 h-4 opacity-0 rotate-0 scale-0" style="border-style:dashed;"></div>
+<div class="rounded-full transition-all duration-300 ease-out flex items-center justify-center relative z-10 w-3 h-3 bg-dark-300 border border-dark-400 group-hover:w-4 group-hover:h-4 group-hover:border-orange-400/50 group-hover:bg-orange-500/20"><i data-lucide="folder-open" class="w-0 h-0 opacity-0 scale-0"></i></div>
+</div>
+</button>
+<button aria-label="Formação" class="group relative flex items-center justify-center w-12 h-12 transition-all duration-300 outline-none focus:outline-none">
+<div class="absolute right-14 px-3 py-1.5 rounded-md bg-dark-100 border border-orange-500/20 text-xs font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 pointer-events-none shadow-[0_0_15px_rgba(6,182,212,0.1)] flex items-center gap-2"><span class="text-orange-400">&gt;</span><span class="text-muted-foreground">Formação</span></div>
+<div class="relative w-full h-full flex items-center justify-center">
+<div class="absolute inset-0 m-auto rounded-full border border-orange-500/50 transition-all duration-500 ease-out w-4 h-4 opacity-0 rotate-0 scale-0" style="border-style:dashed;"></div>
+<div class="rounded-full transition-all duration-300 ease-out flex items-center justify-center relative z-10 w-3 h-3 bg-dark-300 border border-dark-400 group-hover:w-4 group-hover:h-4 group-hover:border-orange-400/50 group-hover:bg-orange-500/20"><i data-lucide="graduation-cap" class="w-0 h-0 opacity-0 scale-0"></i></div>
+</div>
+</button>
+<button aria-label="Contato" class="group relative flex items-center justify-center w-12 h-12 transition-all duration-300 outline-none focus:outline-none">
+<div class="absolute right-14 px-3 py-1.5 rounded-md bg-dark-100 border border-orange-500/20 text-xs font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 pointer-events-none shadow-[0_0_15px_rgba(6,182,212,0.1)] flex items-center gap-2"><span class="text-orange-400">&gt;</span><span class="text-muted-foreground">Contato</span></div>
+<div class="relative w-full h-full flex items-center justify-center">
+<div class="absolute inset-0 m-auto rounded-full border border-orange-500/50 transition-all duration-500 ease-out w-4 h-4 opacity-0 rotate-0 scale-0" style="border-style:dashed;"></div>
+<div class="rounded-full transition-all duration-300 ease-out flex items-center justify-center relative z-10 w-3 h-3 bg-dark-300 border border-dark-400 group-hover:w-4 group-hover:h-4 group-hover:border-orange-400/50 group-hover:bg-orange-500/20"><i data-lucide="mail" class="w-0 h-0 opacity-0 scale-0"></i></div>
+</div>
+</button>
+</div>
+
+<!-- sidebar-nav (hidden variant, preserved from original DOM) -->
+<aside class="fixed left-0 top-0 h-full w-16 lg:w-64 bg-dark-100 border-r border-dark-300 z-50 hidden flex-col">
+<div class="p-4 border-b border-dark-300">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-linear-to-br from-orange-500 to-blue-600 flex items-center justify-center"><i data-lucide="code-xml" class="w-5 h-5 text-white"></i></div>
+<span class="font-mono font-bold text-lg hidden lg:block"><span class="text-orange-400">&lt;</span>Dev<span class="text-orange-400">/&gt;</span></span>
+</div>
+</div>
+<nav class="flex-1 py-4">
+<button class="w-full flex items-center gap-3 px-4 py-3 transition-all duration-300 group bg-orange-500/10 border-r-2 border-orange-400 text-orange-400"><i data-lucide="code-xml" class="w-5 h-5 text-orange-400 transition-colors"></i><span class="font-mono text-sm hidden lg:block">main.ts</span></button>
+<button class="w-full flex items-center gap-3 px-4 py-3 transition-all duration-300 group text-muted-foreground hover:text-foreground hover:bg-dark-50"><i data-lucide="terminal" class="w-5 h-5 group-hover:text-orange-400 transition-colors"></i><span class="font-mono text-sm hidden lg:block">about.md</span></button>
+<button class="w-full flex items-center gap-3 px-4 py-3 transition-all duration-300 group text-muted-foreground hover:text-foreground hover:bg-dark-50"><i data-lucide="cpu" class="w-5 h-5 group-hover:text-orange-400 transition-colors"></i><span class="font-mono text-sm hidden lg:block">skills.json</span></button>
+<button class="w-full flex items-center gap-3 px-4 py-3 transition-all duration-300 group text-muted-foreground hover:text-foreground hover:bg-dark-50"><i data-lucide="git-branch" class="w-5 h-5 group-hover:text-orange-400 transition-colors"></i><span class="font-mono text-sm hidden lg:block">experience.git</span></button>
+<button class="w-full flex items-center gap-3 px-4 py-3 transition-all duration-300 group text-muted-foreground hover:text-foreground hover:bg-dark-50"><i data-lucide="folder-open" class="w-5 h-5 group-hover:text-orange-400 transition-colors"></i><span class="font-mono text-sm hidden lg:block">projects/</span></button>
+<button class="w-full flex items-center gap-3 px-4 py-3 transition-all duration-300 group text-muted-foreground hover:text-foreground hover:bg-dark-50"><i data-lucide="graduation-cap" class="w-5 h-5 group-hover:text-orange-400 transition-colors"></i><span class="font-mono text-sm hidden lg:block">formacao.md</span></button>
+<button class="w-full flex items-center gap-3 px-4 py-3 transition-all duration-300 group text-muted-foreground hover:text-foreground hover:bg-dark-50"><i data-lucide="mail" class="w-5 h-5 group-hover:text-orange-400 transition-colors"></i><span class="font-mono text-sm hidden lg:block">contact.exe</span></button>
+</nav>
+<div class="p-4 border-t border-dark-300">
+<div class="flex items-center justify-center lg:justify-start gap-3">
+<a class="p-2 rounded-lg hover:bg-dark-50 text-muted-foreground hover:text-orange-400 transition-colors" href="https://github.com/ThQMS"><i data-lucide="git-fork" class="w-5 h-5"></i></a>
+<a class="p-2 rounded-lg hover:bg-dark-50 text-muted-foreground hover:text-orange-400 transition-colors" href="https://www.linkedin.com/in/thiago-henrique-queiroz-muniz-silva-b91311249"><i data-lucide="link-2" class="w-5 h-5"></i></a>
+<a class="p-2 rounded-lg hover:bg-dark-50 text-muted-foreground hover:text-orange-400 transition-colors" href="mailto:thqueirozsilva@gmail.com"><i data-lucide="mail" class="w-5 h-5"></i></a>
+</div>
+</div>
+</aside>
+
+<!-- mobile-bottom-nav (md:hidden) -->
+<nav class="fixed bottom-0 left-0 right-0 border-t border-dark-300 bg-dark-100/95 backdrop-blur-xs z-50 md:hidden" style="padding-bottom:env(safe-area-inset-bottom);">
+<div class="grid grid-cols-7 items-center px-2 py-2">
+<button aria-label="Ir para main.ts" class="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-lg transition-colors text-orange-400 bg-orange-500/10"><i data-lucide="code-xml" class="w-5 h-5"></i></button>
+<button aria-label="Ir para about.md" class="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-lg transition-colors text-muted-foreground"><i data-lucide="terminal" class="w-5 h-5"></i></button>
+<button aria-label="Ir para skills.json" class="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-lg transition-colors text-muted-foreground"><i data-lucide="cpu" class="w-5 h-5"></i></button>
+<button aria-label="Ir para experience.git" class="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-lg transition-colors text-muted-foreground"><i data-lucide="git-branch" class="w-5 h-5"></i></button>
+<button aria-label="Ir para projects/" class="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-lg transition-colors text-muted-foreground"><i data-lucide="folder-open" class="w-5 h-5"></i></button>
+<button aria-label="Ir para formacao.md" class="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-lg transition-colors text-muted-foreground"><i data-lucide="graduation-cap" class="w-5 h-5"></i></button>
+<button aria-label="Ir para contact.exe" class="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-lg transition-colors text-muted-foreground"><i data-lucide="mail" class="w-5 h-5"></i></button>
+</div>
+</nav>
+
+<main class="min-h-screen pb-20 md:pb-0">
+
+<!-- hero -->
+<section class="min-h-screen flex items-center justify-center relative overflow-hidden py-20 lg:py-0" id="hero">
+<div class="absolute inset-0 z-0 select-none">
+<div class="absolute inset-0 grid-bg opacity-30 pointer-events-none"></div>
+<div class="absolute inset-0 bg-linear-to-b from-dark-200 via-transparent to-dark-200 z-10"></div>
+<div class="absolute top-20 right-20 font-mono text-xs text-orange-500/20 hidden lg:block">&lt;System.Init /&gt;</div>
+<div class="absolute bottom-20 left-40 font-mono text-xs text-green-500/20 hidden lg:block">while(alive) { code() }</div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+<div class="space-y-8 text-center lg:text-left order-2 lg:order-1">
+<div class="space-y-4">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded border border-orange-500/30 bg-orange-500/5 text-orange-400 text-xs font-mono mb-4 animate-slide-in-up"><span class="relative flex h-2 w-2"><span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500 shadow-[0_0_6px_rgba(230,83,32,0.6)]"></span></span>SISTEMA.KERNEL :: v2.5.0 ONLINE</div>
+<h1 class="text-5xl lg:text-7xl font-bold tracking-tight animate-slide-in-up"><span class="text-foreground">Olá, eu sou </span><span class="text-transparent bg-clip-text bg-linear-to-r from-orange-400 to-blue-500 relative inline-block pb-3 -mb-3">Thiago Henrique<div class="absolute bottom-1 left-0 w-full h-1 rounded-full blur-sm" style="background-color:rgba(125,31,53,0.7);"></div></span></h1>
+<p class="text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 animate-slide-in-up font-light" style="animation-delay:0.1s;"><span class="text-orange-400 font-mono">&lt;FullStack /&gt;</span> Do código à defesa. Especializado em Node.js, TypeScript, React e Python — com formação em segurança defensiva (Blue Team).</p>
+</div>
+<div class="animate-slide-in-up flex flex-col sm:flex-row gap-4 items-stretch w-full max-w-xl mx-auto lg:mx-0" style="animation-delay:0.2s;">
+<a class="relative group cursor-pointer flex-1 min-w-70" href="https://www.linkedin.com/in/thiago-henrique-queiroz-muniz-silva-b91311249" rel="noopener noreferrer" target="_blank">
+<div class="absolute -inset-0.5 bg-linear-to-r from-orange-500 to-blue-600 opacity-30 group-hover:opacity-70 transition duration-500" style="clip-path:polygon(20px 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%,0 20px);"></div>
+<div class="relative bg-[#1a1a1a] border border-orange-500/30 p-4 flex items-center gap-4 hover:bg-[#202020] transition-colors shadow-2xl h-full" style="clip-path:polygon(20px 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%,0 20px);">
+<div class="relative w-10 h-10 shrink-0 flex items-center justify-center bg-orange-500/10 rounded-sm border border-orange-500/20 group-hover:border-orange-500/50 group-hover:scale-105 transition-all"><i data-lucide="terminal" class="w-5 h-5 text-orange-400"></i></div>
+<div class="flex-1 text-left min-w-0">
+<div class="flex justify-between items-center mb-1">
+<h3 class="text-sm font-bold text-white group-hover:text-orange-400 transition-colors truncate">Conectar no LinkedIn</h3>
+<i data-lucide="external-link" class="w-3 h-3 text-gray-500 group-hover:text-orange-400 transition-colors ml-2"></i>
+</div>
+<div class="w-full bg-gray-800 h-1 rounded-full overflow-hidden mb-1"><div class="h-full bg-orange-500 w-[60%] group-hover:w-[85%] transition-all duration-700 ease-out relative"><div class="absolute inset-0 bg-white/30 animate-pulse-fast"></div></div></div>
+<div class="flex justify-between font-mono text-[9px] text-gray-500"><span class="truncate mr-2">&gt; sudo boot_linkedin</span><span class="text-orange-500 group-hover:animate-pulse whitespace-nowrap">Carregando...</span></div>
+</div>
+</div>
+</a>
+<a class="relative group cursor-pointer sm:w-auto shrink-0" href="https://github.com/ThQMS" rel="noopener noreferrer" target="_blank">
+<div class="absolute -inset-0.5 bg-linear-to-r from-orange-500 to-orange-400 opacity-20 group-hover:opacity-50 transition duration-500" style="clip-path:polygon(20px 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%,0 20px);"></div>
+<div class="relative bg-[#1a1a1a] border border-orange-500/30 group-hover:border-orange-500/50 p-4 flex items-center justify-center gap-3 hover:bg-[#202020] transition-colors shadow-xl h-full min-w-30" style="clip-path:polygon(20px 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%,0 20px);">
+<i data-lucide="git-fork" class="w-5 h-5 text-white group-hover:text-orange-400 transition-colors"></i>
+<div class="text-left"><div class="text-[10px] text-gray-400 font-mono leading-none mb-0.5">Confira</div><div class="font-bold text-white group-hover:text-orange-400 transition-colors leading-none">GitHub</div></div>
+</div>
+</a>
+</div>
+<div class="pt-6 flex flex-wrap justify-center lg:justify-start gap-2 opacity-80 animate-slide-in-up" style="animation-delay:0.3s;">
+<span class="text-xs font-mono text-gray-500 mr-2 py-1">MÓDULOS_CARREGADOS:</span>
+<span class="px-2 py-1 bg-orange-500/5 border border-orange-500/20 text-orange-400/80 text-[10px] font-mono rounded tracking-wider hover:bg-orange-500/10 hover:border-orange-500/40 transition-colors cursor-default">REACT</span>
+<span class="px-2 py-1 bg-orange-500/5 border border-orange-500/20 text-orange-400/80 text-[10px] font-mono rounded tracking-wider hover:bg-orange-500/10 hover:border-orange-500/40 transition-colors cursor-default">NEXT.JS</span>
+<span class="px-2 py-1 bg-orange-500/5 border border-orange-500/20 text-orange-400/80 text-[10px] font-mono rounded tracking-wider hover:bg-orange-500/10 hover:border-orange-500/40 transition-colors cursor-default">NODE.JS</span>
+<span class="px-2 py-1 bg-orange-500/5 border border-orange-500/20 text-orange-400/80 text-[10px] font-mono rounded tracking-wider hover:bg-orange-500/10 hover:border-orange-500/40 transition-colors cursor-default">TYPESCRIPT</span>
+<span class="px-2 py-1 bg-orange-500/5 border border-orange-500/20 text-orange-400/80 text-[10px] font-mono rounded tracking-wider hover:bg-orange-500/10 hover:border-orange-500/40 transition-colors cursor-default">PYTHON</span>
+<span class="px-2 py-1 bg-orange-500/5 border border-orange-500/20 text-orange-400/80 text-[10px] font-mono rounded tracking-wider hover:bg-orange-500/10 hover:border-orange-500/40 transition-colors cursor-default">DOCKER</span>
+</div>
+</div>
+<div class="order-1 lg:order-2 flex justify-center lg:justify-end">
+<div class="w-full max-w-xl relative">
+<div class="absolute -inset-4 bg-linear-to-r from-orange-500/10 to-purple-500/10 rounded-xl blur-xl -z-10"></div>
+<div class="terminal w-full max-w-2xl shadow-2xl overflow-hidden rounded-xl border border-dark-300 bg-dark-200">
+<div class="flex items-center justify-between px-4 py-3 bg-dark-100 border-b border-dark-300">
+<div class="flex gap-2"><div class="w-3 h-3 rounded-full bg-red-500/80"></div><div class="w-3 h-3 rounded-full bg-yellow-500/80"></div><div class="w-3 h-3 rounded-full bg-green-500/80"></div></div>
+<div class="font-mono text-xs text-muted-foreground flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>portfolio.tsx</div>
+<div class="w-10"></div>
+</div>
+<div class="p-3 sm:p-6 overflow-x-auto">
+<div class="font-mono text-xs sm:text-sm lg:text-base leading-relaxed whitespace-pre-wrap md:whitespace-pre" style="padding-left:0rem;"><span class="text-muted-foreground mr-4 select-none opacity-30 text-xs">1</span><span class="inline-block w-2.5 h-5 bg-orange-400 align-middle animate-pulse ml-1"></span></div>
+<div class="font-mono text-xs sm:text-sm lg:text-base leading-relaxed whitespace-pre-wrap md:whitespace-pre opacity-0" data-terminal-line style="padding-left:0rem;"><span class="text-muted-foreground mr-4 select-none opacity-30 text-xs">2</span><span class="text-purple-400">import</span><span> { </span><span class="text-orange-400">Developer</span><span> } </span><span class="text-purple-400">from</span><span class="text-green-400"> './universe'</span><span>;</span></div>
+<div class="font-mono text-xs sm:text-sm lg:text-base leading-relaxed whitespace-pre-wrap md:whitespace-pre opacity-0" data-terminal-line style="padding-left:0rem;"><span class="text-muted-foreground mr-4 select-none opacity-30 text-xs">3</span></div>
+<div class="font-mono text-xs sm:text-sm lg:text-base leading-relaxed whitespace-pre-wrap md:whitespace-pre opacity-0" data-terminal-line style="padding-left:0rem;"><span class="text-muted-foreground mr-4 select-none opacity-30 text-xs">4</span><span class="text-purple-400">const</span><span class="text-yellow-400"> Portfolio</span><span> = </span><span class="text-blue-400">()</span><span> =&gt; </span><span>{</span></div>
+<div class="font-mono text-xs sm:text-sm lg:text-base leading-relaxed whitespace-pre-wrap md:whitespace-pre opacity-0" data-terminal-line style="padding-left:1.5rem;"><span class="text-muted-foreground mr-4 select-none opacity-30 text-xs">5</span><span class="text-purple-400">return</span><span> (</span></div>
+<div class="font-mono text-xs sm:text-sm lg:text-base leading-relaxed whitespace-pre-wrap md:whitespace-pre opacity-0" data-terminal-line style="padding-left:3rem;"><span class="text-muted-foreground mr-4 select-none opacity-30 text-xs">6</span><span class="text-coral-400">&lt;</span><span>Developer</span><span> </span></div>
+<div class="font-mono text-xs sm:text-sm lg:text-base leading-relaxed whitespace-pre-wrap md:whitespace-pre opacity-0" data-terminal-line style="padding-left:4.5rem;"><span class="text-muted-foreground mr-4 select-none opacity-30 text-xs">7</span><span class="text-orange-400">name</span><span>=</span><span class="text-green-400">"</span><span class="text-green-400 font-bold">Thiago Henrique</span><span class="text-green-400">"</span></div>
+<div class="font-mono text-xs sm:text-sm lg:text-base leading-relaxed whitespace-pre-wrap md:whitespace-pre opacity-0" data-terminal-line style="padding-left:4.5rem;"><span class="text-muted-foreground mr-4 select-none opacity-30 text-xs">8</span><span class="text-orange-400">role</span><span>=</span><span class="text-green-400">"</span><span class="text-green-400">Engenheiro Full Stack</span><span class="text-green-400">"</span></div>
+<div class="font-mono text-xs sm:text-sm lg:text-base leading-relaxed whitespace-pre-wrap md:whitespace-pre opacity-0" data-terminal-line style="padding-left:4.5rem;"><span class="text-muted-foreground mr-4 select-none opacity-30 text-xs">9</span><span class="text-orange-400">passion</span><span>=</span><span class="text-green-400">"</span><span class="text-green-400">Do código à defesa</span><span class="text-green-400">"</span></div>
+<div class="font-mono text-xs sm:text-sm lg:text-base leading-relaxed whitespace-pre-wrap md:whitespace-pre opacity-0" data-terminal-line style="padding-left:3rem;"><span class="text-muted-foreground mr-4 select-none opacity-30 text-xs">10</span><span class="text-coral-400">/&gt;</span></div>
+<div class="font-mono text-xs sm:text-sm lg:text-base leading-relaxed whitespace-pre-wrap md:whitespace-pre opacity-0" data-terminal-line style="padding-left:1.5rem;"><span class="text-muted-foreground mr-4 select-none opacity-30 text-xs">11</span><span>);</span></div>
+<div class="font-mono text-xs sm:text-sm lg:text-base leading-relaxed whitespace-pre-wrap md:whitespace-pre opacity-0" data-terminal-line style="padding-left:0rem;"><span class="text-muted-foreground mr-4 select-none opacity-30 text-xs">12</span><span>};</span></div>
+<div class="mt-8 flex items-center gap-4">
+<button id="btn-about" class="group flex items-center gap-2 px-6 py-3 bg-orange-500/10 border border-orange-500/30 rounded-lg hover:bg-orange-500/20 hover:border-orange-500/50 transition-all duration-300"><i data-lucide="terminal" class="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform"></i><span class="font-mono text-sm text-orange-400">Sobre mim</span></button>
+<button id="btn-view-projects" class="group flex items-center gap-2 px-6 py-3 border border-dark-400 rounded-lg hover:border-orange-500/30 transition-all duration-300 bg-transparent"><i data-lucide="folder-open" class="w-4 h-4 text-muted-foreground group-hover:text-orange-400 transition-colors"></i><span class="font-mono text-sm text-muted-foreground group-hover:text-foreground">Ver Projetos</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground animate-bounce"><i data-lucide="chevron-right" class="w-6 h-6 rotate-90"></i></div>
+</section>
+
+<!-- about -->
+<section class="min-h-screen flex items-center py-20 px-6 lg:px-12 relative" id="about">
+<div class="max-w-6xl mx-auto w-full">
+<div class="flex items-center gap-4 mb-12 animate-on-scroll" data-animate-on-scroll><i data-lucide="terminal" class="w-6 h-6 text-orange-400"></i><h2 class="font-mono text-2xl lg:text-3xl font-bold"><span class="text-muted-foreground">#</span> Sobre.system</h2></div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+<div class="relative group animate-on-scroll" data-animate-on-scroll>
+<div class="absolute -inset-1 bg-linear-to-r from-orange-500 to-blue-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+<div class="relative bg-[#1e1e1e] border border-orange-500/30 rounded-2xl p-6 lg:p-10 overflow-hidden">
+<div class="relative w-48 h-48 mx-auto mb-8">
+<div class="absolute inset-0 rounded-full border-2 border-orange-500/30 animate-spin-slow-reverse border-t-transparent border-b-transparent"></div>
+<div class="absolute inset-2 rounded-full border-2 border-blue-500/30 animate-spin-slow border-l-transparent border-r-transparent"></div>
+<div class="absolute inset-4 rounded-full overflow-hidden bg-dark-200 border border-dark-300 shadow-inner"><img alt="Foto de Thiago Henrique" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" decoding="async" loading="lazy" src="assets/images/foto_thiago.jpg" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent;"/></div>
+<div class="absolute bottom-4 right-4 w-4 h-4 bg-green-500 rounded-full border-2 border-[#1e1e1e] animate-pulse"></div>
+</div>
+<div class="font-mono text-sm space-y-3">
+<div class="flex justify-between items-center border-b border-white/5 pb-2"><span class="text-gray-500">OPERADOR</span><span class="text-orange-400 font-bold tracking-widest">THIAGO HENRIQUE</span></div>
+<div class="flex justify-between items-center border-b border-white/5 pb-2"><span class="text-gray-500">FUNÇÃO</span><span class="text-blue-400">ENGENHEIRO_FULL_STACK</span></div>
+<div class="flex justify-between items-center border-b border-white/5 pb-2"><span class="text-gray-500">LOCALIZAÇÃO</span><span class="text-white">Campo Grande - MS</span></div>
+<div class="flex justify-between items-center pb-2"><span class="text-gray-500">STATUS</span><span class="bg-green-500/10 text-green-400 px-2 py-0.5 rounded text-xs border border-green-500/20">ONLINE</span></div>
+</div>
+<div class="absolute top-0 left-0 w-full h-1 bg-orange-400/20 shadow-[0_0_15px_rgba(34,211,238,0.5)] animate-scanline pointer-events-none"></div>
+</div>
+</div>
+<div class="space-y-8 animate-on-scroll" data-animate-on-scroll style="animation-delay:0.2s;">
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 font-mono text-sm shadow-xl overflow-hidden group hover:border-orange-500/30 transition-colors">
+<div class="bg-[#2d2d2d] px-4 py-2 flex items-center gap-2 border-b border-dark-300"><i data-lucide="terminal" class="w-3.5 h-3.5 text-gray-400"></i><span class="text-gray-400 text-xs">user_profile.log</span></div>
+<div class="p-6 text-gray-300 leading-relaxed space-y-4">
+<p><span class="text-blue-400">➜</span> <span class="text-purple-400">whoami</span></p>
+<p class="pl-4 border-l-2 border-white/10">Sou Engenheiro de Software full stack com 3 anos de experiência construindo sistemas web escaláveis — do design da arquitetura à entrega. Atualmente me aprofundando em segurança defensiva (Blue Team).</p>
+<p><span class="text-blue-400">➜</span> <span class="text-purple-400">cat</span> mission.txt</p>
+<p class="pl-4 border-l-2 border-white/10 text-gray-400">Traduzir requisitos de negócio complexos em soluções técnicas robustas. Atualmente focado em <span class="text-white">Node.js &amp; TypeScript</span>, <span class="text-white">React &amp; Python</span> e <span class="text-white">Blue Team</span>.</p>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div class="bg-[#1e1e1e] p-4 rounded-lg border border-dark-300 hover:border-orange-500/30 transition-all group">
+<div class="flex items-center gap-2 mb-2"><i data-lucide="cpu" class="w-4 h-4 text-orange-400"></i><span class="text-xs text-gray-500 font-mono">EXPERIÊNCIA</span></div>
+<div class="text-2xl font-bold text-white font-mono group-hover:text-orange-400 transition-colors">3+ <span class="text-sm text-gray-600">ANOS</span></div>
+</div>
+<div class="bg-[#1e1e1e] p-4 rounded-lg border border-dark-300 hover:border-blue-500/30 transition-all group">
+<div class="flex items-center gap-2 mb-2"><i data-lucide="code-xml" class="w-4 h-4 text-blue-400"></i><span class="text-xs text-gray-500 font-mono">PROJETOS</span></div>
+<div class="text-2xl font-bold text-white font-mono group-hover:text-blue-400 transition-colors">15+ <span class="text-sm text-gray-600">REPOS</span></div>
+</div>
+<div class="bg-[#1e1e1e] p-4 rounded-lg border border-dark-300 hover:border-orange-500/30 transition-all group">
+<div class="flex items-center gap-2 mb-2"><i data-lucide="coffee" class="w-4 h-4 text-orange-400"></i><span class="text-xs text-gray-500 font-mono">CAFEÍNA</span></div>
+<div class="text-2xl font-bold text-white font-mono group-hover:text-orange-400 transition-colors">∞ <span class="text-sm text-gray-600">ml</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- skills -->
+<section class="min-h-screen py-20 px-6 lg:px-12" id="skills">
+<div class="max-w-6xl mx-auto">
+<div class="flex items-center gap-4 mb-12 animate-on-scroll" data-animate-on-scroll><i data-lucide="cpu" class="w-6 h-6 text-orange-400"></i><h2 class="font-mono text-2xl lg:text-3xl font-bold"><span class="text-muted-foreground">#</span> Habilidades.json</h2></div>
+<div class="h-150 w-full flex items-center justify-center relative">
+<div class="absolute inset-0 cursor-grab active:cursor-grabbing">
+<div id="skills-globe" style="position:relative;width:100%;height:100%;overflow:hidden;pointer-events:auto;"></div>
+</div>
+<div class="absolute -bottom-8 left-1/2 -translate-x-1/2 pointer-events-none text-center">
+<div class="flex items-center gap-2 text-muted-foreground bg-dark-100 px-4 py-2 rounded-full border border-white/5"><i data-lucide="globe" class="w-4 h-4 animate-spin-slow"></i><span class="font-mono text-xs">Arraste para explorar o universo de habilidades</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- experience -->
+<section class="min-h-screen py-20 px-6 lg:px-12 relative overflow-hidden" id="experience">
+<div class="absolute inset-0 grid-bg opacity-20 pointer-events-none"></div>
+<div class="max-w-5xl mx-auto relative z-10">
+<div class="flex items-center gap-4 mb-16 animate-on-scroll" data-animate-on-scroll><i data-lucide="git-branch" class="w-6 h-6 text-orange-400"></i><h2 class="font-mono text-2xl lg:text-3xl font-bold"><span class="text-muted-foreground">$</span> git log --stat --oneline</h2></div>
+<div class="relative pl-8 lg:pl-0">
+<div class="absolute left-8 lg:left-1/2 top-0 bottom-0 w-px bg-orange-900/50 transform -translate-x-1/2 hidden lg:block"></div>
+<div class="absolute left-8 top-0 bottom-0 w-px bg-orange-900/50 lg:hidden"></div>
+<div class="space-y-16">
+<div class="git-commit relative flex flex-col lg:flex-row items-center gap-10 lg:flex-row-reverse">
+<div class="hidden lg:flex w-1/2 justify-start">
+<div class="flex items-center gap-2 bg-[#1e1e1e] px-4 py-2 rounded-full border border-orange-500/20"><i data-lucide="calendar" class="w-3.5 h-3.5 text-orange-400"></i><span class="font-mono text-xs text-gray-400">2023 - Atual</span></div>
+</div>
+<div class="absolute left-8 lg:left-1/2 transform -translate-x-1/2 flex items-center justify-center z-10"><div class="w-4 h-4 rounded-full bg-dark-200 border-2 border-orange-500 relative ring-4 ring-dark-100"><div class="absolute inset-0 bg-orange-400 rounded-full opacity-20"></div></div></div>
+<div class="w-full lg:w-1/2 pl-12 lg:pl-0">
+<div class="relative group lg:mr-10">
+<div class="hidden lg:block absolute top-6 w-10 h-px bg-orange-500/30 -right-10"></div>
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 overflow-hidden hover:border-orange-500/30 transition-all duration-300 shadow-xl group-hover:shadow-2xl hover:-translate-y-1">
+<div class="bg-[#252526] px-4 py-2 border-b border-dark-300 flex items-center justify-between">
+<div class="flex items-center gap-3"><span class="font-mono text-xs text-yellow-500">f3a7c2d</span><span class="hidden sm:inline-block px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 text-[10px] font-mono border border-blue-500/20">HEAD -&gt; developer</span></div>
+<span class="font-mono text-[10px] text-gray-500">Jeito Frio Sorvetes</span>
+</div>
+<div class="p-6">
+<div class="lg:hidden mb-4 flex items-center gap-2 text-xs text-gray-500 font-mono"><i data-lucide="calendar" class="w-3 h-3"></i>2023 - Atual</div>
+<h3 class="text-lg font-bold text-white mb-1 group-hover:text-orange-400 transition-colors">Desenvolvedor Full Stack <span class="text-gray-500 font-normal text-sm">@ Jeito Frio Sorvetes</span></h3>
+<div class="mt-4 space-y-2 font-mono text-sm text-gray-400"><p class="leading-relaxed border-l-2 border-orange-500/20 pl-4 py-1">Desenvolvimento do novo portal interno substituindo sistemas legados, integração via middleware Python e automação da produção com visão computacional.</p></div>
+<div class="mt-6 flex flex-wrap gap-2">
+<span class="px-2 py-1 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300 border border-orange-500/20">React</span>
+<span class="px-2 py-1 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300 border border-orange-500/20">Node.js</span>
+<span class="px-2 py-1 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300 border border-orange-500/20">Python</span>
+<span class="px-2 py-1 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300 border border-orange-500/20">Docker</span>
+</div>
+</div>
+<div class="bg-[#1a1a1a] px-4 py-2 border-t border-dark-300 flex items-center gap-4 text-[10px] font-mono text-gray-500">
+<div class="flex items-center gap-1"><i data-lucide="file-code" class="w-3 h-3"></i><span>4 arquivos alterados</span></div>
+<div class="flex items-center gap-1 text-green-500/80"><span>+412 inserções</span></div>
+<div class="flex items-center gap-1 text-red-500/80"><span>-89 exclusões</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="git-commit relative flex flex-col lg:flex-row items-center gap-10">
+<div class="hidden lg:flex w-1/2 justify-end">
+<div class="flex items-center gap-2 bg-[#1e1e1e] px-4 py-2 rounded-full border border-orange-500/20"><i data-lucide="calendar" class="w-3.5 h-3.5 text-orange-400"></i><span class="font-mono text-xs text-gray-400">2021 - 2024</span></div>
+</div>
+<div class="absolute left-8 lg:left-1/2 transform -translate-x-1/2 flex items-center justify-center z-10"><div class="w-4 h-4 rounded-full bg-dark-200 border-2 border-orange-500 relative ring-4 ring-dark-100"><div class="absolute inset-0 bg-orange-400 rounded-full opacity-20"></div></div></div>
+<div class="w-full lg:w-1/2 pl-12 lg:pl-0">
+<div class="relative group lg:ml-10">
+<div class="hidden lg:block absolute top-6 w-10 h-px bg-orange-500/30 -left-10"></div>
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 overflow-hidden hover:border-orange-500/30 transition-all duration-300 shadow-xl group-hover:shadow-2xl hover:-translate-y-1">
+<div class="bg-[#252526] px-4 py-2 border-b border-dark-300 flex items-center justify-between">
+<div class="flex items-center gap-3"><span class="font-mono text-xs text-yellow-500">a1c4e09</span><span class="hidden sm:inline-block px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 text-[10px] font-mono border border-blue-500/20">HEAD -&gt; developer</span></div>
+<span class="font-mono text-[10px] text-gray-500">UNIGRAN</span>
+</div>
+<div class="p-6">
+<div class="lg:hidden mb-4 flex items-center gap-2 text-xs text-gray-500 font-mono"><i data-lucide="calendar" class="w-3 h-3"></i>2021 - 2024</div>
+<h3 class="text-lg font-bold text-white mb-1 group-hover:text-orange-400 transition-colors">Engenharia de Software <span class="text-gray-500 font-normal text-sm">@ UNIGRAN</span></h3>
+<div class="mt-4 space-y-2 font-mono text-sm text-gray-400"><p class="leading-relaxed border-l-2 border-orange-500/20 pl-4 py-1">Graduação em Engenharia de Software. TCC: LinkUp — plataforma de recrutamento com busca semântica híbrida e IA generativa.</p></div>
+<div class="mt-6 flex flex-wrap gap-2">
+<span class="px-2 py-1 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300 border border-orange-500/20">Node.js</span>
+<span class="px-2 py-1 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300 border border-orange-500/20">IA Generativa</span>
+<span class="px-2 py-1 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300 border border-orange-500/20">Docker</span>
+<span class="px-2 py-1 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300 border border-orange-500/20">CI/CD</span>
+</div>
+</div>
+<div class="bg-[#1a1a1a] px-4 py-2 border-t border-dark-300 flex items-center gap-4 text-[10px] font-mono text-gray-500">
+<div class="flex items-center gap-1"><i data-lucide="file-code" class="w-3 h-3"></i><span>4 arquivos alterados</span></div>
+<div class="flex items-center gap-1 text-green-500/80"><span>+245 inserções</span></div>
+<div class="flex items-center gap-1 text-red-500/80"><span>-12 exclusões</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-16 text-center relative z-10">
+<div class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1e1e1e] border border-dark-300 text-xs font-mono text-gray-400 hover:text-orange-400 transition-colors hover:border-orange-500/50 cursor-pointer"><i data-lucide="git-commit-horizontal" class="w-4 h-4"></i><span>Commit Inicial (2021 — primeiro "Hello World")</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- projects -->
+<section class="min-h-screen py-20 px-6 lg:px-12" id="projects">
+<div class="max-w-6xl mx-auto">
+<div class="flex items-center gap-4 mb-12 animate-on-scroll" data-animate-on-scroll><i data-lucide="folder-open" class="w-6 h-6 text-orange-400"></i><h2 class="font-mono text-2xl lg:text-3xl font-bold"><span class="text-muted-foreground">$</span> ls -la ~/projects</h2></div>
+<div class="flex flex-col lg:flex-row gap-8 items-start">
+<div class="w-full lg:w-1/3 animate-on-scroll" data-animate-on-scroll>
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 overflow-hidden shadow-lg">
+<div class="bg-[#252526] px-4 py-3 border-b border-dark-300 flex items-center justify-between">
+<div class="flex items-center gap-2 text-sm font-semibold text-gray-300"><i data-lucide="book" class="w-4 h-4"></i><span>Repositórios</span></div>
+<span class="bg-dark-200 text-gray-400 px-2 py-0.5 rounded-full text-xs border border-dark-300 font-mono">15</span>
+</div>
+<div class="divide-y divide-dark-300 max-h-125 overflow-y-auto custom-scrollbar bg-[#1e1e1e]"></div>
+</div>
+</div>
+<div class="w-full lg:w-2/3 animate-on-scroll" data-animate-on-scroll style="animation-delay:0.2s;">
+<div class="flex items-center gap-2 mb-4"><span class="text-sm font-semibold text-gray-400 uppercase tracking-widest pl-1">Projetos Fixados</span><div class="h-px bg-dark-300 flex-1"></div></div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="project-card bg-[#1e1e1e] border border-dark-300 rounded-lg p-5 flex flex-col justify-between hover:border-item-selected hover:shadow-lg transition-all group h-full relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="circle" class="w-3 h-3 text-gray-600 fill-gray-600"></i></div>
+<a aria-label="Ver LinkUp" class="absolute inset-0 z-0" href="https://github.com/ThQMS/TCC---Linkup" rel="noopener noreferrer" target="_blank"></a>
+<div class="mb-4 relative z-10 pointer-events-none">
+<div class="flex items-center gap-2 mb-3 pointer-events-auto"><i data-lucide="book" class="w-4 h-4 text-gray-500"></i><a class="font-semibold text-orange-300 hover:underline cursor-pointer truncate text-base" href="https://github.com/ThQMS/TCC---Linkup" rel="noopener noreferrer" target="_blank">LinkUp</a><span class="ml-auto text-[10px] border border-dark-300 rounded-full px-2 py-0.5 text-gray-500 font-medium bg-dark-200">Público</span></div>
+<p class="text-xs text-gray-400 line-clamp-3 mb-4 leading-relaxed h-[4.5em]">Plataforma bilateral de recrutamento com IA — busca semântica híbrida e cartas de apresentação geradas por IA.</p>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Node.js</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Handlebars</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">IA Generativa</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Docker</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-xs text-gray-500 mt-auto pt-4 border-t border-dark-300/50 relative z-10 pointer-events-none">
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border border-white/10 shadow-sm" style="background-color:#f7931e;"></span><span>Handlebars</span></div>
+
+
+<div class="ml-auto flex gap-2 pointer-events-auto"></div>
+</div>
+</div>
+<div class="project-card bg-[#1e1e1e] border border-dark-300 rounded-lg p-5 flex flex-col justify-between hover:border-item-selected hover:shadow-lg transition-all group h-full relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="circle" class="w-3 h-3 text-gray-600 fill-gray-600"></i></div>
+<a aria-label="Ver Nexus Gateway" class="absolute inset-0 z-0" href="https://github.com/ThQMS/Nexus-Gateway" rel="noopener noreferrer" target="_blank"></a>
+<div class="mb-4 relative z-10 pointer-events-none">
+<div class="flex items-center gap-2 mb-3 pointer-events-auto"><i data-lucide="book" class="w-4 h-4 text-gray-500"></i><a class="font-semibold text-orange-300 hover:underline cursor-pointer truncate text-base" href="https://github.com/ThQMS/Nexus-Gateway" rel="noopener noreferrer" target="_blank">Nexus Gateway</a><span class="ml-auto text-[10px] border border-dark-300 rounded-full px-2 py-0.5 text-gray-500 font-medium bg-dark-200">Público</span></div>
+<p class="text-xs text-gray-400 line-clamp-3 mb-4 leading-relaxed h-[4.5em]">API Gateway inspirado em produção: reverse proxy, autenticação JWT, rate limiting, métricas Prometheus e Docker Compose.</p>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">TypeScript</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Fastify</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Redis</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Prometheus</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-xs text-gray-500 mt-auto pt-4 border-t border-dark-300/50 relative z-10 pointer-events-none">
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border border-white/10 shadow-sm" style="background-color:#3178c6;"></span><span>TypeScript</span></div>
+
+
+<div class="ml-auto flex gap-2 pointer-events-auto"></div>
+</div>
+</div>
+<div class="project-card bg-[#1e1e1e] border border-dark-300 rounded-lg p-5 flex flex-col justify-between hover:border-item-selected hover:shadow-lg transition-all group h-full relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="circle" class="w-3 h-3 text-gray-600 fill-gray-600"></i></div>
+<a aria-label="Ver Soundprint API" class="absolute inset-0 z-0" href="https://github.com/ThQMS/soundprint-api" rel="noopener noreferrer" target="_blank"></a>
+<div class="mb-4 relative z-10 pointer-events-none">
+<div class="flex items-center gap-2 mb-3 pointer-events-auto"><i data-lucide="book" class="w-4 h-4 text-gray-500"></i><a class="font-semibold text-orange-300 hover:underline cursor-pointer truncate text-base" href="https://github.com/ThQMS/soundprint-api" rel="noopener noreferrer" target="_blank">Soundprint API</a><span class="ml-auto text-[10px] border border-dark-300 rounded-full px-2 py-0.5 text-gray-500 font-medium bg-dark-200">Público</span></div>
+<p class="text-xs text-gray-400 line-clamp-3 mb-4 leading-relaxed h-[4.5em]">API REST que identifica músicas em arquivos de áudio via fingerprinting acústico, com ~300ms de resposta. FastAPI, Chromaprint e AcoustID.</p>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Python</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">FastAPI</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Chromaprint</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">AcoustID</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-xs text-gray-500 mt-auto pt-4 border-t border-dark-300/50 relative z-10 pointer-events-none">
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border border-white/10 shadow-sm" style="background-color:#3572A5;"></span><span>Python</span></div>
+
+
+<div class="ml-auto flex gap-2 pointer-events-auto"></div>
+</div>
+</div>
+<div class="project-card bg-[#1e1e1e] border border-dark-300 rounded-lg p-5 flex flex-col justify-between hover:border-item-selected hover:shadow-lg transition-all group h-full relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="circle" class="w-3 h-3 text-gray-600 fill-gray-600"></i></div>
+<a aria-label="Ver IOC Enricher" class="absolute inset-0 z-0" href="https://github.com/ThQMS/Ioc-enricher" rel="noopener noreferrer" target="_blank"></a>
+<div class="mb-4 relative z-10 pointer-events-none">
+<div class="flex items-center gap-2 mb-3 pointer-events-auto"><i data-lucide="book" class="w-4 h-4 text-gray-500"></i><a class="font-semibold text-orange-300 hover:underline cursor-pointer truncate text-base" href="https://github.com/ThQMS/Ioc-enricher" rel="noopener noreferrer" target="_blank">IOC Enricher</a><span class="ml-auto text-[10px] border border-dark-300 rounded-full px-2 py-0.5 text-gray-500 font-medium bg-dark-200">Público</span></div>
+<p class="text-xs text-gray-400 line-clamp-3 mb-4 leading-relaxed h-[4.5em]">Ferramenta de linha de comando para enriquecimento de indicadores de comprometimento (IOCs) usando múltiplos feeds de threat intelligence — apoio a investigações Blue Team.</p>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Python</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Threat Intel</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">CLI</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Blue Team</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-xs text-gray-500 mt-auto pt-4 border-t border-dark-300/50 relative z-10 pointer-events-none">
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border border-white/10 shadow-sm" style="background-color:#3572A5;"></span><span>Python</span></div>
+<div class="ml-auto flex gap-2 pointer-events-auto"></div>
+</div>
+</div>
+<div class="project-card bg-[#1e1e1e] border border-dark-300 rounded-lg p-5 flex flex-col justify-between hover:border-item-selected hover:shadow-lg transition-all group h-full relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="circle" class="w-3 h-3 text-gray-600 fill-gray-600"></i></div>
+<a aria-label="Ver Abyssal Crown" class="absolute inset-0 z-0" href="https://github.com/ThQMS/Abyssal-Crown" rel="noopener noreferrer" target="_blank"></a>
+<div class="mb-4 relative z-10 pointer-events-none">
+<div class="flex items-center gap-2 mb-3 pointer-events-auto"><i data-lucide="book" class="w-4 h-4 text-gray-500"></i><a class="font-semibold text-orange-300 hover:underline cursor-pointer truncate text-base" href="https://github.com/ThQMS/Abyssal-Crown" rel="noopener noreferrer" target="_blank">Abyssal Crown</a><span class="ml-auto text-[10px] border border-dark-300 rounded-full px-2 py-0.5 text-gray-500 font-medium bg-dark-200">Público</span></div>
+<p class="text-xs text-gray-400 line-clamp-3 mb-4 leading-relaxed h-[4.5em]">Roguelike de masmorra por turnos: resolva puzzles de programação (JS/Python) para abrir os cofres do abismo. Combate elemental, árvore de habilidades e geração procedural — 100% no navegador.</p>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">TypeScript</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Vite</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Canvas 2D</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Geração Procedural</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-xs text-gray-500 mt-auto pt-4 border-t border-dark-300/50 relative z-10 pointer-events-none">
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border border-white/10 shadow-sm" style="background-color:#3178c6;"></span><span>TypeScript</span></div>
+<div class="ml-auto flex gap-2 pointer-events-auto"></div>
+</div>
+</div>
+<div class="project-card bg-[#1e1e1e] border border-dark-300 rounded-lg p-5 flex flex-col justify-between hover:border-item-selected hover:shadow-lg transition-all group h-full relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="circle" class="w-3 h-3 text-gray-600 fill-gray-600"></i></div>
+<a aria-label="Ver Devpulse" class="absolute inset-0 z-0" href="https://github.com/ThQMS/Devpulse" rel="noopener noreferrer" target="_blank"></a>
+<div class="mb-4 relative z-10 pointer-events-none">
+<div class="flex items-center gap-2 mb-3 pointer-events-auto"><i data-lucide="book" class="w-4 h-4 text-gray-500"></i><a class="font-semibold text-orange-300 hover:underline cursor-pointer truncate text-base" href="https://github.com/ThQMS/Devpulse" rel="noopener noreferrer" target="_blank">Devpulse</a><span class="ml-auto text-[10px] border border-dark-300 rounded-full px-2 py-0.5 text-gray-500 font-medium bg-dark-200">Público</span></div>
+<p class="text-xs text-gray-400 line-clamp-3 mb-4 leading-relaxed h-[4.5em]">Painel de monitoramento de serviços em tempo real. Monorepo com API Node.js (Fastify · WebSocket · BullMQ) e frontend React (Zustand · React Query · Recharts).</p>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">TypeScript</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">Fastify</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">WebSocket</span>
+<span class="text-[10px] text-orange-300/90 bg-orange-900/10 px-2 py-1 rounded-md border border-orange-500/10 font-mono">React</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-xs text-gray-500 mt-auto pt-4 border-t border-dark-300/50 relative z-10 pointer-events-none">
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border border-white/10 shadow-sm" style="background-color:#3178c6;"></span><span>TypeScript</span></div>
+<div class="ml-auto flex gap-2 pointer-events-auto"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 text-center"><a aria-label="Ver todos os repositórios no GitHub" class="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-orange-300 transition-colors" href="https://github.com/ThQMS" rel="noopener noreferrer" target="_blank"><span>Ver todos os repositórios</span><i data-lucide="chevron-right" class="w-4 h-4"></i></a></div>
+</div>
+</section>
+
+<!-- formacao -->
+<section class="min-h-screen py-20 px-6 lg:px-12" id="formacao">
+<div class="max-w-6xl mx-auto">
+<div class="flex items-center gap-4 mb-12 animate-on-scroll" data-animate-on-scroll><i data-lucide="graduation-cap" class="w-6 h-6 text-orange-400"></i><h2 class="font-mono text-2xl lg:text-3xl font-bold"><span class="text-muted-foreground">$</span> cat formacao.md</h2></div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-on-scroll" data-animate-on-scroll>
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 overflow-hidden hover:border-orange-500/30 transition-all duration-300 shadow-xl hover:-translate-y-1 group">
+<div class="bg-[#252526] px-4 py-2 border-b border-dark-300 flex items-center justify-between">
+<div class="flex items-center gap-2 text-xs font-mono text-gray-400"><i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-orange-400"></i><span>graduacao.md</span></div>
+<span class="font-mono text-[10px] text-gray-500">2021 - 2024</span>
+</div>
+<div class="p-6">
+<h3 class="text-lg font-bold text-white mb-1 group-hover:text-orange-400 transition-colors">Bacharelado em Engenharia de Software</h3>
+<p class="text-sm text-gray-500 font-mono mb-4">UNIGRAN · Campo Grande - MS</p>
+<div class="font-mono text-sm text-gray-400"><p class="leading-relaxed border-l-2 border-orange-500/20 pl-4 py-1">TCC: LinkUp — plataforma de recrutamento com busca semântica híbrida e IA generativa.</p></div>
+</div>
+</div>
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 overflow-hidden hover:border-blue-500/30 transition-all duration-300 shadow-xl hover:-translate-y-1 group">
+<div class="bg-[#252526] px-4 py-2 border-b border-dark-300 flex items-center justify-between">
+<div class="flex items-center gap-2 text-xs font-mono text-gray-400"><i data-lucide="shield" class="w-3.5 h-3.5 text-blue-400"></i><span>pos-graduacao.md</span></div>
+<span class="bg-green-500/10 text-green-400 px-2 py-0.5 rounded text-[10px] font-mono border border-green-500/20 animate-pulse">CURSANDO</span>
+</div>
+<div class="p-6">
+<h3 class="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Pós: Segurança Defensiva — Blue Team Operations</h3>
+<p class="text-sm text-gray-500 font-mono mb-4">Especialização em andamento</p>
+<div class="font-mono text-sm text-gray-400"><p class="leading-relaxed border-l-2 border-blue-500/20 pl-4 py-1">Operações defensivas: monitoramento, resposta a incidentes e threat intelligence.</p></div>
+</div>
+</div>
+</div>
+<div class="mt-8 animate-on-scroll" data-animate-on-scroll>
+<div class="flex items-center gap-2 mb-6"><i data-lucide="award" class="w-4 h-4 text-orange-400"></i><span class="text-sm font-semibold text-gray-400 uppercase tracking-widest">Certificações e Cursos</span><div class="h-px bg-dark-300 flex-1"></div></div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 p-4 flex items-start gap-3 hover:border-blue-500/40 transition-all duration-300 hover:-translate-y-1 group">
+<div class="w-9 h-9 shrink-0 rounded-md bg-blue-500/10 border border-blue-500/20 flex items-center justify-center"><i data-lucide="shield-check" class="w-4 h-4 text-blue-400"></i></div>
+<div class="min-w-0">
+<h4 class="text-sm font-bold text-white group-hover:text-blue-400 transition-colors leading-snug">Junior Cybersecurity Analyst</h4>
+<p class="text-[11px] font-mono text-gray-500 mt-1">Cisco Networking Academy</p>
+</div>
+</div>
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 p-4 flex items-start gap-3 hover:border-blue-500/40 transition-all duration-300 hover:-translate-y-1 group">
+<div class="w-9 h-9 shrink-0 rounded-md bg-blue-500/10 border border-blue-500/20 flex items-center justify-center"><i data-lucide="lock" class="w-4 h-4 text-blue-400"></i></div>
+<div class="min-w-0">
+<h4 class="text-sm font-bold text-white group-hover:text-blue-400 transition-colors leading-snug">LGPD</h4>
+<p class="text-[11px] font-mono text-gray-500 mt-1">Conformidade e proteção de dados</p>
+</div>
+</div>
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 p-4 flex items-start gap-3 hover:border-orange-500/40 transition-all duration-300 hover:-translate-y-1 group">
+<div class="w-9 h-9 shrink-0 rounded-md bg-orange-500/10 border border-orange-500/20 flex items-center justify-center"><i data-lucide="code" class="w-4 h-4 text-orange-400"></i></div>
+<div class="min-w-0">
+<h4 class="text-sm font-bold text-white group-hover:text-orange-400 transition-colors leading-snug">Python Web &amp; Automação</h4>
+<p class="text-[11px] font-mono text-gray-500 mt-1">Desenvolvimento web e scripts</p>
+</div>
+</div>
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 p-4 flex items-start gap-3 hover:border-orange-500/40 transition-all duration-300 hover:-translate-y-1 group">
+<div class="w-9 h-9 shrink-0 rounded-md bg-orange-500/10 border border-orange-500/20 flex items-center justify-center"><i data-lucide="chart-line" class="w-4 h-4 text-orange-400"></i></div>
+<div class="min-w-0">
+<h4 class="text-sm font-bold text-white group-hover:text-orange-400 transition-colors leading-snug">Dashboards Interativos</h4>
+<p class="text-[11px] font-mono text-gray-500 mt-1">Visualização de dados</p>
+</div>
+</div>
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 p-4 flex items-start gap-3 hover:border-orange-500/40 transition-all duration-300 hover:-translate-y-1 group">
+<div class="w-9 h-9 shrink-0 rounded-md bg-orange-500/10 border border-orange-500/20 flex items-center justify-center"><i data-lucide="container" class="w-4 h-4 text-orange-400"></i></div>
+<div class="min-w-0">
+<h4 class="text-sm font-bold text-white group-hover:text-orange-400 transition-colors leading-snug">Docker &amp; Git</h4>
+<p class="text-[11px] font-mono text-gray-500 mt-1">Containers e versionamento</p>
+</div>
+</div>
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 p-4 hover:border-orange-500/40 transition-all duration-300 hover:-translate-y-1 group">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 shrink-0 rounded-md bg-orange-500/10 border border-orange-500/20 flex items-center justify-center"><i data-lucide="layers" class="w-4 h-4 text-orange-400"></i></div>
+<div class="min-w-0">
+<h4 class="text-sm font-bold text-white group-hover:text-orange-400 transition-colors leading-snug">Linguagens &amp; Frameworks</h4>
+<div class="flex flex-wrap gap-1 mt-2">
+<span class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300/90 border border-orange-500/10">PHP</span>
+<span class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300/90 border border-orange-500/10">React</span>
+<span class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300/90 border border-orange-500/10">React Native</span>
+<span class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300/90 border border-orange-500/10">JavaScript</span>
+<span class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300/90 border border-orange-500/10">Node.js</span>
+<span class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300/90 border border-orange-500/10">PostgreSQL</span>
+<span class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-orange-500/5 text-orange-300/90 border border-orange-500/10">Flutter</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- contact -->
+<section class="min-h-screen flex items-center py-20 px-6 lg:px-12" id="contact">
+<div class="max-w-7xl mx-auto w-full">
+<div class="flex items-center gap-4 mb-12 animate-on-scroll" data-animate-on-scroll><i data-lucide="mail" class="w-6 h-6 text-orange-400"></i><h2 class="font-mono text-2xl lg:text-3xl font-bold"><span class="text-muted-foreground">$</span> ./contact.exe</h2></div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mt-12">
+<div class="animate-on-scroll" data-animate-on-scroll>
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 shadow-2xl overflow-hidden font-mono text-sm group transition-all duration-300 hover:border-orange-500/30">
+<div class="bg-[#252526] px-4 py-2 flex items-center justify-between border-b border-dark-300">
+<div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-red-500/80"></div><div class="w-3 h-3 rounded-full bg-yellow-500/80"></div><div class="w-3 h-3 rounded-full bg-green-500/80"></div></div>
+<div class="text-gray-400 text-xs flex items-center gap-2"><i data-lucide="code-xml" class="w-3 h-3 text-blue-400"></i><span>contact_info.json</span></div>
+</div>
+<div class="p-6 overflow-x-auto relative">
+<div class="hidden sm:block absolute left-0 top-6 bottom-6 w-8 text-right pr-3 text-gray-700 select-none text-xs leading-6 font-mono border-r border-gray-800"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div></div>
+<div class="pl-6 leading-6">
+<div><span class="text-yellow-400">{</span></div>
+<div class="pl-4"><span class="text-orange-400">"status"</span>: <span class="text-green-400">"disponível"</span>,</div>
+<div class="pl-4"><span class="text-orange-400">"email"</span>: <a class="text-orange-300 hover:underline" href="mailto:thqueirozsilva@gmail.com">"thqueirozsilva@gmail.com"</a>,</div>
+<div class="pl-4"><span class="text-orange-400">"socials"</span>: <span class="text-yellow-400">{</span></div>
+<div class="pl-8"><span class="text-orange-400">"github"</span>: <a class="text-orange-300 hover:underline" href="https://github.com/ThQMS" rel="noreferrer" target="_blank">"@ThQMS"</a>,</div>
+<div class="pl-8"><span class="text-orange-400">"linkedin"</span>: <a class="text-orange-300 hover:underline" href="https://www.linkedin.com/in/thiago-henrique-queiroz-muniz-silva-b91311249" rel="noreferrer" target="_blank">"in/thiago-henrique"</a></div>
+<div class="pl-4"><span class="text-yellow-400">}</span>,</div>
+<div class="pl-4"><span class="text-orange-400">"location"</span>: <span class="text-orange-300">"Campo Grande - MS"</span></div>
+<div><span class="text-yellow-400">}</span></div>
+<div class="h-4"></div>
+<div class="text-gray-500 italic">// Aguardando conexão...</div>
+<div class="text-orange-400 animate-pulse">_</div>
+</div>
+</div>
+</div>
+</div>
+<div class="animate-on-scroll" data-animate-on-scroll style="animation-delay:0.2s;">
+<div class="bg-[#1e1e1e] rounded-lg border border-dark-300 shadow-2xl overflow-hidden font-mono text-sm h-full flex flex-col group transition-all duration-300 hover:border-orange-500/30">
+<div class="bg-[#252526] flex text-xs border-b border-dark-300">
+<div class="bg-[#1e1e1e] px-4 py-2 text-gray-300 border-t-2 border-orange-400 flex items-center gap-2"><span class="text-blue-400 font-bold">TS</span><span>sendMessage.ts</span><span class="ml-2 hover:bg-white/10 rounded-full p-0.5 cursor-pointer">×</span></div>
+</div>
+<div class="p-6 relative flex-1">
+<form class="space-y-4">
+<div class="rounded-lg border border-[#e65320]/20 bg-[#111111]/70 overflow-hidden">
+<div class="flex items-center justify-between px-4 py-2 border-b border-[#e65320]/20 bg-[#141414]">
+<div class="flex items-center gap-2 text-gray-300 font-mono text-xs"><i data-lucide="mail" class="w-3.5 h-3.5 text-orange-400"></i><span>mail.compose</span></div>
+<span class="text-[10px] font-mono text-gray-500">canal seguro</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 px-4 py-2 border-b border-[#e65320]/10 bg-[#101010]">
+<div class="text-[10px] font-mono text-gray-500"><span class="text-gray-400">para:</span> <span class="text-orange-300">thqueirozsilva@gmail.com</span></div>
+<div class="text-[10px] font-mono text-gray-500 sm:text-right"><span class="text-gray-400">resposta:</span> <span class="text-emerald-300">em até 24h</span></div>
+</div>
+<div class="p-4 space-y-3">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div class="space-y-1"><label class="text-[10px] font-mono uppercase tracking-wide text-gray-500" for="contact-name">Nome</label><input class="w-full rounded border border-[#2b2b2b] bg-[#1b1b1b] px-3 py-2 text-sm text-orange-200 placeholder-gray-600 focus:outline-none focus:border-orange-500/60" id="contact-name" name="name" placeholder="Seu Nome" required="" type="text" value=""/></div>
+<div class="space-y-1"><label class="text-[10px] font-mono uppercase tracking-wide text-gray-500" for="contact-email">E-mail</label><input class="w-full rounded border border-[#2b2b2b] bg-[#1b1b1b] px-3 py-2 text-sm text-orange-200 placeholder-gray-600 focus:outline-none focus:border-orange-500/60" id="contact-email" name="email" placeholder="seu@email.com" required="" type="email" value=""/></div>
+</div>
+<div class="space-y-1"><label class="text-[10px] font-mono uppercase tracking-wide text-gray-500" for="contact-subject">Assunto</label><input class="w-full rounded border border-[#2b2b2b] bg-[#1b1b1b] px-3 py-2 text-sm text-orange-200 placeholder-gray-600 focus:outline-none focus:border-orange-500/60" id="contact-subject" name="subject" placeholder="Consulta de projeto / Colaboração" type="text" value=""/></div>
+<div class="space-y-1"><label class="text-[10px] font-mono uppercase tracking-wide text-gray-500" for="contact-message">Mensagem</label><textarea class="w-full rounded border border-[#2b2b2b] bg-[#1b1b1b] px-3 py-2 text-sm text-orange-200 placeholder-gray-600 focus:outline-none focus:border-orange-500/60 resize-none" id="contact-message" name="message" placeholder="Conte-me sobre seu projeto, prazo e objetivos..." required="" rows="5"></textarea></div>
+<div aria-hidden="true" class="hidden"><label for="website">Site</label><input autocomplete="off" id="website" name="website" tabindex="-1" type="text" value=""/></div>
+<div class="text-[11px] text-gray-500 font-mono">// Protegido por filtros de spam e limites de taxa</div>
+</div>
+</div>
+<div class="pt-2"><button class="flex items-center gap-2 px-5 py-2.5 bg-orange-500/20 text-orange-200 border border-orange-500/40 rounded hover:bg-orange-500/30 hover:text-white transition-all font-sans text-xs uppercase tracking-wider font-bold group w-full justify-center lg:w-auto shadow-[0_0_0_0_rgba(230,83,32,0)] hover:shadow-[0_0_20px_-8px_rgba(230,83,32,0.8)] disabled:opacity-50 disabled:cursor-not-allowed" type="submit"><i data-lucide="play" class="w-3.5 h-3.5 fill-current group-hover:scale-110 transition-transform"></i><span>Enviar Mensagem</span></button></div>
+</form>
+</div>
+</div>
+</div>
+</div>
+<footer class="mt-12 text-center animate-on-scroll" data-animate-on-scroll>
+<div class="flex items-center justify-center gap-2 mb-4"><i data-lucide="code-xml" class="w-5 h-5 text-orange-400"></i><span class="font-mono text-lg font-bold">Thiago Henrique <span class="text-muted-foreground">|</span> Engenheiro de Software</span></div>
+<p class="font-mono text-sm text-muted-foreground">Node.js, TypeScript &amp; Tailwind</p>
+<p class="font-mono text-xs text-muted-foreground mt-2">© 2026 Thiago Henrique. Todos os direitos reservados.</p>
+</footer>
+</div>
+</section>
+
+</main>
+</div>
+
+<!-- floating-chat-button -->
+<a aria-label="Fale comigo no WhatsApp" href="https://wa.me/5567991143664?text=Ol%C3%A1%20Thiago!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar." rel="noopener noreferrer" target="_blank" class="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-50 w-16 h-16 flex items-center justify-center cursor-pointer select-none">
+<div class="absolute inset-0 rounded-full border border-dashed border-[#e65320]/60 animate-spin pointer-events-none" style="animation-duration:8s;"></div>
+<div class="absolute inset-1.25 rounded-full border border-[#e65320]/30 pointer-events-none"></div>
+<img alt="Thiago Henrique" class="relative w-10 h-10 rounded-full object-cover border border-[#e65320] shadow-[0_0_20px_rgba(230,83,32,0.4)]" src="assets/images/foto_thiago.jpg"/>
+<span class="absolute top-1 right-1 w-3 h-3 rounded-full border-2 border-[#2d2d2d] bg-emerald-400"></span>
+</a>
+
+<!-- js -->
+<!-- Lucide runtime (vendored locally) — renders every <i data-lucide> placeholder into an inline SVG; deferred so it never blocks first paint -->
+<script defer src="assets/js/lucide.min.js"></script>
+<!-- interactions.js — Lucide init, terminal typewriter, scroll reveals, nav buttons, contact form; deferred to run after lucide, in order -->
+<script defer src="assets/js/interactions.js"></script>
+<!-- effects.js — decorative ambient effects: matrix code rain, compile progress bar, blueprint spine -->
+<script defer src="assets/js/effects.js"></script>
+<!-- skills-globe.js — Three.js CSS3D sphere of Devicon skill icons (slow auto-rotate + drag); uses the import map above -->
+<script type="module" src="assets/js/skills-globe.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+/* effects.css — ambient dev/architecture effects (all decorative, pointer-events:none).
+   Colours follow the site theme: gold #d4af37, wine #7d1f35, near-black #101010. */
+
+/* 1. Matrix code rain — sits above the shell background, below all content. */
+#matrix-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.16;
+}
+
+/* 2. Compile progress bar — thin gold build bar pinned to the very top. */
+#compile-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(212, 175, 55, 0.08);
+  z-index: 60;
+  pointer-events: none;
+}
+#compile-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #7d1f35, #d4af37);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  transition: width 0.1s linear;
+}
+#compile-pct {
+  position: fixed;
+  top: 9px;
+  right: 16px;
+  font: 11px/1 "Geist Mono", monospace;
+  letter-spacing: 0.06em;
+  color: #d4af37;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 60;
+  pointer-events: none;
+  text-shadow: 0 0 6px rgba(212, 175, 55, 0.4);
+}
+@media (max-width: 640px) {
+  #compile-pct { display: none; }
+}
+
+/* 3. Blueprint spine — a system-diagram trace that draws down the left gutter as you scroll (lg+). */
+#blueprint {
+  position: fixed;
+  left: 18px;
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  z-index: 5;
+  pointer-events: none;
+  display: none;
+}
+@media (min-width: 1024px) {
+  #blueprint { display: block; }
+}
+#blueprint .bp-track {
+  position: absolute;
+  left: 7px;
+  top: 8%;
+  bottom: 8%;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(212, 175, 55, 0.14) 12%, rgba(212, 175, 55, 0.14) 88%, transparent);
+}
+#blueprint .bp-fill {
+  position: absolute;
+  left: 7px;
+  top: 8%;
+  width: 2px;
+  height: 0;
+  background: linear-gradient(to bottom, #7d1f35, #d4af37);
+  box-shadow: 0 0 7px rgba(212, 175, 55, 0.55);
+}
+#blueprint .bp-node {
+  position: absolute;
+  left: 3px;
+  width: 10px;
+  height: 10px;
+  transform: translateY(-50%) rotate(45deg);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: #101010;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+#blueprint .bp-node.passed {
+  border-color: rgba(212, 175, 55, 0.5);
+}
+#blueprint .bp-node.active {
+  border-color: #d4af37;
+  background: #d4af37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.75);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #compile-fill { transition: none; }
+}
