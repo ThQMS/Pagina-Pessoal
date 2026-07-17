@@ -11,6 +11,7 @@
 
   /* ---------------- 1. Matrix code rain ---------------- */
   function initMatrix() {
+    if (window.matchMedia("(max-width: 767px)").matches) return; // skip the animated canvas on phones
     var shell = document.querySelector(".min-h-screen.bg-dark-200") || document.body;
     var canvas = document.createElement("canvas");
     canvas.id = "matrix-bg";

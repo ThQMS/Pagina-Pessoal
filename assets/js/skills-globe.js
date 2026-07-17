@@ -232,9 +232,33 @@ function loadGlobe(mount) {
     });
 }
 
+// Lightweight static grid for mobile — avoids the ~700KB Three.js download and the WebGL/CSS3D
+// render loop that stutters on phones. Same skills, same Devicon icons, no runtime cost.
+function renderStatic(mount) {
+  var wrap = document.createElement("div");
+  wrap.className = "skills-static";
+  shuffle(SKILLS).forEach(function (s) {
+    var item = document.createElement("div");
+    item.className = "ss-item";
+    item.title = s.label;
+    var icon = document.createElement("i");
+    icon.className = s.icon + " colored" + (DARK_ICONS.has(s.icon) ? " is-dark" : "");
+    var label = document.createElement("span");
+    label.textContent = s.label;
+    item.append(icon, label);
+    wrap.appendChild(item);
+  });
+  mount.appendChild(wrap);
+  var caption = document.getElementById("skills-caption");
+  if (caption) caption.style.display = "none"; // "arraste para girar" doesn't apply to the grid
+}
+
 const mount = document.getElementById("skills-globe");
+const isMobile = window.matchMedia("(max-width: 767px)").matches;
 if (mount) {
-  if ("IntersectionObserver" in window) {
+  if (isMobile) {
+    renderStatic(mount);
+  } else if ("IntersectionObserver" in window) {
     const io = new IntersectionObserver(
       function (entries) {
         if (entries.some(function (e) { return e.isIntersecting; })) {

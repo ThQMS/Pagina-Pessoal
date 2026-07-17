@@ -43,3 +43,36 @@
   color: #8b949e;
   white-space: nowrap;
 }
+
+/* Static skills grid — lightweight mobile fallback (no WebGL/Three.js). */
+.skills-static {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  overflow-y: auto;
+}
+.skills-static .ss-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 72px;
+  padding: 8px 4px;
+  border-radius: 10px;
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+}
+.skills-static .ss-item i { font-size: 26px; line-height: 1; }
+.skills-static .ss-item i.is-dark { text-shadow: 0 0 5px rgba(255, 255, 255, 0.85); }
+.skills-static .ss-item span {
+  font-family: "Geist Mono", "Geist Mono Fallback", monospace;
+  font-size: 9px;
+  color: #8b949e;
+  text-align: center;
+  line-height: 1.2;
+}

@@ -85,6 +85,28 @@
     if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  // Mobile hamburger menu: open/close the slide-in panel and navigate on item tap.
+  function setupMobileMenu() {
+    var toggle = document.getElementById("mobile-menu-toggle");
+    var menu = document.getElementById("mobile-menu");
+    if (!toggle || !menu) return;
+    function open() { menu.classList.add("open"); toggle.setAttribute("aria-expanded", "true"); menu.setAttribute("aria-hidden", "false"); }
+    function close() { menu.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); menu.setAttribute("aria-hidden", "true"); }
+    toggle.addEventListener("click", function () {
+      if (menu.classList.contains("open")) close(); else open();
+    });
+    menu.addEventListener("click", function (e) {
+      var t = e.target;
+      if (t.closest("#mobile-menu-close") || (t.classList && t.classList.contains("mm-backdrop"))) { close(); return; }
+      var link = t.closest && t.closest(".mm-link");
+      if (link && link.getAttribute("data-nav")) { scrollToSection(link.getAttribute("data-nav")); close(); }
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && menu.classList.contains("open")) close();
+    });
+  }
+  setupMobileMenu();
+
   // One delegated listener handles every button — survives icon replacement and any init-order issue.
   document.addEventListener("click", function (e) {
     var btn = e.target && e.target.closest ? e.target.closest("button") : null;
