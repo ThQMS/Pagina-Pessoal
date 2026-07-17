@@ -253,6 +253,43 @@ function renderStatic(mount) {
   if (caption) caption.style.display = "none"; // static grid: nothing to drag
 }
 
+// Geodesic sphere — subdivides an icosahedron exactly like THREE.IcosahedronGeometry(r, detail),
+// returning unit vertices + unique edges. detail=2 matches the desktop globe's dense cage.
+function buildGeodesic(detail) {
+  var t = (1 + Math.sqrt(5)) / 2;
+  var base = [[-1, t, 0], [1, t, 0], [-1, -t, 0], [1, -t, 0], [0, -1, t], [0, 1, t],
+              [0, -1, -t], [0, 1, -t], [t, 0, -1], [t, 0, 1], [-t, 0, -1], [-t, 0, 1]];
+  var faces = [[0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7, 10], [0, 10, 11], [1, 5, 9], [5, 11, 4],
+               [11, 10, 2], [10, 7, 6], [7, 1, 8], [3, 9, 4], [3, 4, 2], [3, 2, 6], [3, 6, 8],
+               [3, 8, 9], [4, 9, 5], [2, 4, 11], [6, 2, 10], [8, 6, 7], [9, 8, 1]];
+  function lerp(p, q, s) { return [p[0] + (q[0] - p[0]) * s, p[1] + (q[1] - p[1]) * s, p[2] + (q[2] - p[2]) * s]; }
+  function norm(p) { var l = Math.sqrt(p[0] * p[0] + p[1] * p[1] + p[2] * p[2]); return [p[0] / l, p[1] / l, p[2] / l]; }
+  var verts = [], vmap = {}, edges = {}, cols = detail + 1;
+  function addV(p) {
+    var n = norm(p), k = n[0].toFixed(3) + "," + n[1].toFixed(3) + "," + n[2].toFixed(3);
+    if (vmap[k] === undefined) { vmap[k] = verts.length; verts.push(n); }
+    return vmap[k];
+  }
+  function addE(i, j) { if (i !== j) edges[Math.min(i, j) + "_" + Math.max(i, j)] = [Math.min(i, j), Math.max(i, j)]; }
+  faces.forEach(function (f) {
+    var a = base[f[0]], b = base[f[1]], c = base[f[2]], grid = [];
+    for (var i = 0; i <= cols; i++) {
+      grid[i] = [];
+      var aj = lerp(a, c, i / cols), bj = lerp(b, c, i / cols), rows = cols - i;
+      for (var j = 0; j <= rows; j++) grid[i][j] = rows === 0 ? addV(aj) : addV(lerp(aj, bj, j / rows));
+    }
+    for (var i = 0; i < cols; i++) {
+      for (var j = 0; j < 2 * (cols - i) - 1; j++) {
+        var k = Math.floor(j / 2), v1, v2, v3;
+        if (j % 2 === 0) { v1 = grid[i][k + 1]; v2 = grid[i + 1][k]; v3 = grid[i][k]; }
+        else { v1 = grid[i][k + 1]; v2 = grid[i + 1][k + 1]; v3 = grid[i + 1][k]; }
+        addE(v1, v2); addE(v2, v3); addE(v3, v1);
+      }
+    }
+  });
+  return { verts: verts, edges: Object.keys(edges).map(function (k) { return edges[k]; }) };
+}
+
 // Light globe — a real rotating 3D icon sphere built from plain DOM nodes projected by hand
 // (fibonacci distribution + Y/X rotation + perspective scale). ~31 nodes, no WebGL, no Three.js:
 // the phone downloads nothing extra and the loop is cheap. Drag horizontally to spin.
@@ -285,16 +322,8 @@ function renderLightGlobe(mount) {
   container.insertBefore(wire, container.firstChild);
   var wctx = wire.getContext("2d");
   var DPR = Math.min(window.devicePixelRatio || 1, 1.5);
-  var GT = (1 + Math.sqrt(5)) / 2;
-  var wv = [[-1, GT, 0], [1, GT, 0], [-1, -GT, 0], [1, -GT, 0], [0, -1, GT], [0, 1, GT],
-            [0, -1, -GT], [0, 1, -GT], [GT, 0, -1], [GT, 0, 1], [-GT, 0, -1], [-GT, 0, 1]];
-  var wedges = [];
-  for (var a = 0; a < 12; a++) for (var b = a + 1; b < 12; b++) {
-    var dx = wv[a][0] - wv[b][0], dy = wv[a][1] - wv[b][1], dz = wv[a][2] - wv[b][2];
-    if (Math.abs(dx * dx + dy * dy + dz * dz - 4) < 0.15) wedges.push([a, b]);
-  }
-  var wl = Math.hypot(1, GT);
-  wv = wv.map(function (v) { return [v[0] / wl, v[1] / wl, v[2] / wl]; });
+  var geo = buildGeodesic(2); // detail 2 — same dense cage as the desktop globe
+  var wv = geo.verts, wedges = geo.edges;
   var wsize = 0;
 
   var BASE = 0.008;
@@ -351,7 +380,7 @@ function renderLightGlobe(mount) {
     wctx.lineWidth = 1;
     for (var e = 0; e < wedges.length; e++) {
       var pa = wp[wedges[e][0]], pb = wp[wedges[e][1]];
-      var op = Math.max(0, Math.min(0.5, ((pa.z + pb.z) / 2 + 1.1) / 2.1 * 0.5));
+      var op = ((pa.z + pb.z) / 2 + 1.15) / 2.15 * 0.26; // ~0.02 back → ~0.26 front, like desktop
       wctx.strokeStyle = "rgba(212,175,55," + op.toFixed(3) + ")";
       wctx.beginPath();
       wctx.moveTo(pa.x, pa.y);
