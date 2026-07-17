@@ -250,14 +250,96 @@ function renderStatic(mount) {
   });
   mount.appendChild(wrap);
   var caption = document.getElementById("skills-caption");
-  if (caption) caption.style.display = "none"; // "arraste para girar" doesn't apply to the grid
+  if (caption) caption.style.display = "none"; // static grid: nothing to drag
+}
+
+// Light globe — a real rotating 3D icon sphere built from plain DOM nodes projected by hand
+// (fibonacci distribution + Y/X rotation + perspective scale). ~31 nodes, no WebGL, no Three.js:
+// the phone downloads nothing extra and the loop is cheap. Drag horizontally to spin.
+function renderLightGlobe(mount) {
+  var skills = shuffle(SKILLS);
+  var N = skills.length;
+  var container = document.createElement("div");
+  container.className = "light-globe";
+
+  var nodes = skills.map(function (s, i) {
+    var el = document.createElement("div");
+    el.className = "lg-node";
+    var icon = document.createElement("i");
+    icon.className = s.icon + " colored" + (DARK_ICONS.has(s.icon) ? " is-dark" : "");
+    var label = document.createElement("span");
+    label.textContent = s.label;
+    el.append(icon, label);
+    container.appendChild(el);
+    var y = 1 - (i / (N - 1)) * 2;        // 1 .. -1
+    var rad = Math.sqrt(Math.max(0, 1 - y * y));
+    var theta = i * 2.399963;             // golden angle
+    return { el: el, x: Math.cos(theta) * rad, y: y, z: Math.sin(theta) * rad };
+  });
+  mount.appendChild(container);
+
+  var BASE = 0.008;
+  var angY = 0, angX = -0.32, velY = BASE, velX = 0;
+  var dragging = false, lastX = 0, lastY = 0;
+
+  function coords(e) { var t = e.touches ? e.touches[0] : e; return { x: t.clientX, y: t.clientY }; }
+  function down(e) { dragging = true; var p = coords(e); lastX = p.x; lastY = p.y; }
+  function move(e) {
+    if (!dragging) return;
+    var p = coords(e), dx = p.x - lastX, dy = p.y - lastY;
+    angY += dx * 0.007;
+    velY = dx * 0.0009;
+    if (e.type !== "touchmove") { angX += -dy * 0.007; velX = -dy * 0.0009; } // vertical tilt: mouse only
+    lastX = p.x; lastY = p.y;
+  }
+  function up() { dragging = false; }
+  container.addEventListener("touchstart", down, { passive: true });
+  container.addEventListener("touchmove", move, { passive: true });
+  container.addEventListener("touchend", up);
+  container.addEventListener("pointerdown", down);
+  window.addEventListener("pointermove", move);
+  window.addEventListener("pointerup", up);
+
+  var last = 0;
+  function frame(t) {
+    requestAnimationFrame(frame);
+    if (t - last < 33) return; // ~30fps is plenty and light
+    last = t;
+    if (!dragging) {
+      angY += velY; angX += velX;
+      velY += (BASE - velY) * 0.03; // ease back to gentle auto-rotate
+      velX *= 0.94;
+    }
+    if (angX > 0.6) angX = 0.6; else if (angX < -0.6) angX = -0.6;
+    var w = mount.clientWidth, h = mount.clientHeight;
+    var R = Math.min(w, h) * 0.4, cx = w / 2, cy = h / 2;
+    var cy_ = Math.cos(angY), sy = Math.sin(angY), cx_ = Math.cos(angX), sx = Math.sin(angX);
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      var x1 = n.x * cy_ - n.z * sy;
+      var z1 = n.x * sy + n.z * cy_;
+      var y2 = n.y * cx_ - z1 * sx;
+      var z2 = n.y * sx + z1 * cx_;
+      var sc = (z2 + 1.7) / 2.7;                                  // depth -> scale
+      var op = Math.max(0, Math.min(1, (z2 + 1.1) / 1.7));        // depth -> opacity
+      n.el.style.left = (cx + x1 * R) + "px";
+      n.el.style.top = (cy + y2 * R) + "px";
+      n.el.style.transform = "translate(-50%,-50%) scale(" + sc.toFixed(3) + ")";
+      n.el.style.opacity = op.toFixed(2);
+      n.el.style.zIndex = ((z2 + 1) * 100) | 0;
+      n.el.style.pointerEvents = op > 0.75 ? "auto" : "none";
+    }
+  }
+  requestAnimationFrame(frame);
 }
 
 const mount = document.getElementById("skills-globe");
 const isMobile = window.matchMedia("(max-width: 767px)").matches;
+const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 if (mount) {
   if (isMobile) {
-    renderStatic(mount);
+    if (prefersReduced) renderStatic(mount); // no motion requested -> static grid
+    else renderLightGlobe(mount);            // lightweight rotating sphere, no WebGL
   } else if ("IntersectionObserver" in window) {
     const io = new IntersectionObserver(
       function (entries) {

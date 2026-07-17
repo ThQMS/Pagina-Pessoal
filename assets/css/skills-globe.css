@@ -76,3 +76,33 @@
   text-align: center;
   line-height: 1.2;
 }
+
+/* Light globe — DOM-only spherical icon cloud for mobile (no WebGL / no Three.js). */
+.light-globe {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y; /* vertical = page scroll; horizontal = spin */
+}
+.light-globe:active { cursor: grabbing; }
+.light-globe .lg-node {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 58px;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+.light-globe .lg-node i { font-size: 24px; line-height: 1; }
+.light-globe .lg-node i.is-dark { text-shadow: 0 0 5px rgba(255, 255, 255, 0.85); }
+.light-globe .lg-node span {
+  font-family: "Geist Mono", "Geist Mono Fallback", monospace;
+  font-size: 8px;
+  color: #8b949e;
+  white-space: nowrap;
+}
