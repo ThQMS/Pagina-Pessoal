@@ -164,10 +164,92 @@
     paintNodes();
   }
 
+  /* ---------------- 4. Boot sequence: click / tap to skip ---------------- */
+  function initBootSkip() {
+    var el = document.getElementById("boot");
+    if (!el) return;
+    el.addEventListener("click", function () { el.classList.add("boot-skip"); });
+    // Safety net: guarantee the overlay is gone even if the CSS animation never runs.
+    window.setTimeout(function () { el.classList.add("boot-skip"); }, 2600);
+  }
+
+  /* ---------------- 5. Count-up on stats (when they scroll into view) ---------------- */
+  function initCountUp() {
+    var els = document.querySelectorAll("[data-count]");
+    if (!els.length) return;
+    function run(el) {
+      var target = parseInt(el.getAttribute("data-count"), 10) || 0;
+      var dur = 900, start = null;
+      function step(ts) {
+        if (start === null) start = ts;
+        var p = Math.min(1, (ts - start) / dur);
+        var eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+        el.textContent = Math.round(target * eased);
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = target;
+      }
+      requestAnimationFrame(step);
+    }
+    if (reduce || !("IntersectionObserver" in window)) {
+      els.forEach(function (el) { el.textContent = el.getAttribute("data-count"); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
+    }, { threshold: 0.6 });
+    els.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---------------- 6. Scramble section headings (decode effect) ---------------- */
+  function initScramble() {
+    if (reduce || !("IntersectionObserver" in window)) return;
+    var CH = "!<>-_\\/[]{}=+*^?#01";
+    var headings = document.querySelectorAll("main section h2.font-mono");
+    function textNodeOf(h) {
+      for (var i = h.childNodes.length - 1; i >= 0; i--) {
+        var n = h.childNodes[i];
+        if (n.nodeType === 3 && n.textContent.trim().length > 1) return n;
+      }
+      return null;
+    }
+    function scramble(node) {
+      var finalText = node.textContent;
+      var lead = finalText.match(/^\s*/)[0];
+      var core = finalText.slice(lead.length);
+      var frame = 0, total = core.length + 12;
+      function tick() {
+        var out = "";
+        for (var i = 0; i < core.length; i++) {
+          if (core[i] === " ") { out += " "; continue; }
+          var revealAt = i + 6;
+          if (frame >= revealAt) out += core[i];
+          else out += CH[(Math.random() * CH.length) | 0];
+        }
+        node.textContent = lead + out;
+        frame++;
+        if (frame <= total) setTimeout(tick, 28);
+        else node.textContent = finalText;
+      }
+      tick();
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var node = textNodeOf(e.target);
+        if (node) scramble(node);
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.6 });
+    headings.forEach(function (h) { io.observe(h); });
+  }
+
   function boot() {
     try { initMatrix(); } catch (e) {}
     try { initProgress(); } catch (e) {}
     try { initBlueprint(); } catch (e) {}
+    try { initBootSkip(); } catch (e) {}
+    try { initCountUp(); } catch (e) {}
+    try { initScramble(); } catch (e) {}
   }
 
   if (document.readyState === "loading") {
