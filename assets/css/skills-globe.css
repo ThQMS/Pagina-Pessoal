@@ -106,3 +106,4 @@
   color: #8b949e;
   white-space: nowrap;
 }
+.light-globe .lg-wire { position: absolute; inset: 0; pointer-events: none; z-index: 0; }

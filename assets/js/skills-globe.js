@@ -278,6 +278,25 @@ function renderLightGlobe(mount) {
   });
   mount.appendChild(container);
 
+  // Wireframe cage: an icosahedron (12 verts, 30 edges) drawn on a light canvas behind the icons,
+  // rotating with them — same shape the desktop WebGL globe uses, at a fraction of the cost.
+  var wire = document.createElement("canvas");
+  wire.className = "lg-wire";
+  container.insertBefore(wire, container.firstChild);
+  var wctx = wire.getContext("2d");
+  var DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+  var GT = (1 + Math.sqrt(5)) / 2;
+  var wv = [[-1, GT, 0], [1, GT, 0], [-1, -GT, 0], [1, -GT, 0], [0, -1, GT], [0, 1, GT],
+            [0, -1, -GT], [0, 1, -GT], [GT, 0, -1], [GT, 0, 1], [-GT, 0, -1], [-GT, 0, 1]];
+  var wedges = [];
+  for (var a = 0; a < 12; a++) for (var b = a + 1; b < 12; b++) {
+    var dx = wv[a][0] - wv[b][0], dy = wv[a][1] - wv[b][1], dz = wv[a][2] - wv[b][2];
+    if (Math.abs(dx * dx + dy * dy + dz * dz - 4) < 0.15) wedges.push([a, b]);
+  }
+  var wl = Math.hypot(1, GT);
+  wv = wv.map(function (v) { return [v[0] / wl, v[1] / wl, v[2] / wl]; });
+  var wsize = 0;
+
   var BASE = 0.008;
   var angY = 0, angX = -0.32, velY = BASE, velX = 0;
   var dragging = false, lastX = 0, lastY = 0;
@@ -314,6 +333,32 @@ function renderLightGlobe(mount) {
     var w = mount.clientWidth, h = mount.clientHeight;
     var R = Math.min(w, h) * 0.4, cx = w / 2, cy = h / 2;
     var cy_ = Math.cos(angY), sy = Math.sin(angY), cx_ = Math.cos(angX), sx = Math.sin(angX);
+
+    // --- wireframe cage ---
+    if (wsize !== w * 10000 + h) { // resize canvas only when needed
+      wsize = w * 10000 + h;
+      wire.width = w * DPR; wire.height = h * DPR;
+      wire.style.width = w + "px"; wire.style.height = h + "px";
+      wctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+    wctx.clearRect(0, 0, w, h);
+    var Rw = R * 0.82;
+    var wp = wv.map(function (v) {
+      var x1 = v[0] * cy_ - v[2] * sy, z1 = v[0] * sy + v[2] * cy_;
+      var y2 = v[1] * cx_ - z1 * sx, z2 = v[1] * sx + z1 * cx_;
+      return { x: cx + x1 * Rw, y: cy + y2 * Rw, z: z2 };
+    });
+    wctx.lineWidth = 1;
+    for (var e = 0; e < wedges.length; e++) {
+      var pa = wp[wedges[e][0]], pb = wp[wedges[e][1]];
+      var op = Math.max(0, Math.min(0.5, ((pa.z + pb.z) / 2 + 1.1) / 2.1 * 0.5));
+      wctx.strokeStyle = "rgba(212,175,55," + op.toFixed(3) + ")";
+      wctx.beginPath();
+      wctx.moveTo(pa.x, pa.y);
+      wctx.lineTo(pb.x, pb.y);
+      wctx.stroke();
+    }
+
     for (var i = 0; i < nodes.length; i++) {
       var n = nodes[i];
       var x1 = n.x * cy_ - n.z * sy;
