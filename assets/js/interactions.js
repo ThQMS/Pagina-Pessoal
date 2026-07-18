@@ -90,6 +90,9 @@
   var SECTIONS = ["hero", "about", "skills", "experience", "projects", "formacao", "contact"];
   var currentIndex = 0;
 
+  // Active UI language ("pt" default, "en" available); driven by the PT/EN switch below.
+  var CURRENT_LANG = "pt";
+
   function goSection(dir) {
     var next = Math.min(SECTIONS.length - 1, Math.max(0, currentIndex + dir));
     if (next !== currentIndex) scrollToSection(SECTIONS[next]);
@@ -181,7 +184,7 @@
     var label = button ? button.querySelector("span") : null;
 
     function setStatus(text, done) {
-      if (label) label.textContent = text;
+      if (label) label.textContent = tr(text);
       if (button) button.disabled = !done;
     }
 
@@ -311,6 +314,189 @@
     computeActive();
   }
 
+  // ---- Internationalization (Portuguese default ↔ English) ----
+  // The page ships in Portuguese; every translatable string is swapped in place by walking
+  // the text nodes and matching them against this PT→EN dictionary — no reload, choice saved
+  // in localStorage. Code, filenames, tech names and proper nouns are intentionally left out.
+  var PT2EN = {
+    // nav / menu
+    "Início": "Home", "Sobre": "About", "Habilidades": "Skills", "Experiência": "Experience",
+    "Projetos": "Projects", "Formação": "Education", "Contato": "Contact", "~/navegação": "~/navigation",
+    // hero
+    "SISTEMA.KERNEL :: v2.5.0 ONLINE": "SYSTEM.KERNEL :: v2.5.0 ONLINE",
+    "Olá, eu sou": "Hi, I'm",
+    "Do código à defesa. Especializado em Node.js, TypeScript, React e Python — com formação em segurança defensiva (Blue Team).":
+      "From code to defense. Specialized in Node.js, TypeScript, React and Python — with a background in defensive security (Blue Team).",
+    "Conectar no LinkedIn": "Connect on LinkedIn",
+    "Carregando...": "Loading...",
+    "Confira": "Check out",
+    "MÓDULOS_CARREGADOS:": "MODULES_LOADED:",
+    "Engenheiro Full Stack": "Full Stack Engineer",
+    "Do código à defesa": "From code to defense",
+    "Sobre mim": "About me",
+    "Ver Projetos": "View Projects",
+    // about
+    "Sobre.system": "About.system",
+    "Sou Engenheiro de Software full stack com 3 anos de experiência construindo sistemas web escaláveis — do design da arquitetura à entrega. Atualmente me aprofundando em segurança defensiva (Blue Team).":
+      "I'm a full stack Software Engineer with 3 years of experience building scalable web systems — from architecture design to delivery. Currently deepening my focus on defensive security (Blue Team).",
+    "OPERADOR": "OPERATOR", "FUNÇÃO": "ROLE", "ENGENHEIRO_FULL_STACK": "FULL_STACK_ENGINEER",
+    "LOCALIZAÇÃO": "LOCATION",
+    "EXPERIÊNCIA": "EXPERIENCE", "ANOS": "YEARS", "PROJETOS": "PROJECTS", "CAFEÍNA": "CAFFEINE",
+    // skills
+    "Habilidades.json": "Skills.json",
+    "Arraste para explorar o universo de habilidades": "Drag to explore the universe of skills",
+    // experience
+    "2023 - Atual": "2023 - Present",
+    "Desenvolvedor Full Stack": "Full Stack Developer",
+    "Desenvolvimento do novo portal interno substituindo sistemas legados, integração via middleware Python e automação da produção com visão computacional.":
+      "Development of the new internal portal replacing legacy systems, integration via Python middleware and production automation with computer vision.",
+    "4 arquivos alterados": "4 files changed",
+    "+412 inserções": "+412 insertions", "-89 exclusões": "-89 deletions",
+    "Engenharia de Software": "Software Engineering",
+    "Graduação em Engenharia de Software. TCC: LinkUp — plataforma de recrutamento com busca semântica híbrida e IA generativa.":
+      "Bachelor's in Software Engineering. Thesis: LinkUp — a recruitment platform with hybrid semantic search and generative AI.",
+    "+245 inserções": "+245 insertions", "-12 exclusões": "-12 deletions",
+    "Commit Inicial (2021 — primeiro \"Hello World\")": "Initial Commit (2021 — first \"Hello World\")",
+    // projects
+    "Repositórios": "Repositories", "Projetos Fixados": "Pinned Projects", "Público": "Public",
+    "Plataforma bilateral de recrutamento com IA — busca semântica híbrida e cartas de apresentação geradas por IA.":
+      "Two-sided AI recruitment platform — hybrid semantic search and AI-generated cover letters.",
+    "API Gateway inspirado em produção: reverse proxy, autenticação JWT, rate limiting, métricas Prometheus e Docker Compose.":
+      "Production-inspired API Gateway: reverse proxy, JWT authentication, rate limiting, Prometheus metrics and Docker Compose.",
+    "API REST que identifica músicas em arquivos de áudio via fingerprinting acústico, com ~300ms de resposta. FastAPI, Chromaprint e AcoustID.":
+      "REST API that identifies songs in audio files via acoustic fingerprinting, with ~300ms response. FastAPI, Chromaprint and AcoustID.",
+    "Ferramenta de linha de comando para enriquecimento de indicadores de comprometimento (IOCs) usando múltiplos feeds de threat intelligence — apoio a investigações Blue Team.":
+      "Command-line tool for enriching indicators of compromise (IOCs) using multiple threat intelligence feeds — supporting Blue Team investigations.",
+    "Roguelike de masmorra por turnos: resolva puzzles de programação (JS/Python) para abrir os cofres do abismo. Combate elemental, árvore de habilidades e geração procedural — 100% no navegador.":
+      "Turn-based dungeon roguelike: solve programming puzzles (JS/Python) to open the vaults of the abyss. Elemental combat, skill tree and procedural generation — 100% in the browser.",
+    "Painel de monitoramento de serviços em tempo real. Monorepo com API Node.js (Fastify · WebSocket · BullMQ) e frontend React (Zustand · React Query · Recharts).":
+      "Real-time service monitoring dashboard. Monorepo with a Node.js API (Fastify · WebSocket · BullMQ) and a React frontend (Zustand · React Query · Recharts).",
+    "IA Generativa": "Generative AI", "Geração Procedural": "Procedural Generation",
+    "Ver todos os repositórios": "View all repositories",
+    // education
+    "Bacharelado em Engenharia de Software": "Bachelor's in Software Engineering",
+    "TCC: LinkUp — plataforma de recrutamento com busca semântica híbrida e IA generativa.":
+      "Thesis: LinkUp — a recruitment platform with hybrid semantic search and generative AI.",
+    "CURSANDO": "IN PROGRESS",
+    "Pós: Segurança Defensiva — Blue Team Operations": "Postgrad: Defensive Security — Blue Team Operations",
+    "Especialização em andamento": "Specialization in progress",
+    "Operações defensivas: monitoramento, resposta a incidentes e threat intelligence.":
+      "Defensive operations: monitoring, incident response and threat intelligence.",
+    "Certificações e Cursos": "Certifications & Courses",
+    "Conformidade e proteção de dados": "Compliance and data protection",
+    "Python Web & Automação": "Python Web & Automation",
+    "Desenvolvimento web e scripts": "Web development and scripts",
+    "Dashboards Interativos": "Interactive Dashboards",
+    "Visualização de dados": "Data visualization",
+    "Containers e versionamento": "Containers and versioning",
+    "Linguagens & Frameworks": "Languages & Frameworks",
+    // contact
+    "\"disponível\"": "\"available\"",
+    "// Aguardando conexão...": "// Awaiting connection...",
+    "canal seguro": "secure channel", "para:": "to:", "resposta:": "reply:", "em até 24h": "within 24h",
+    "Nome": "Name", "E-mail": "Email", "Assunto": "Subject", "Mensagem": "Message",
+    "// Protegido por filtros de spam e limites de taxa": "// Protected by spam filters and rate limiting",
+    "Enviar Mensagem": "Send Message",
+    // contact form status (set from JS)
+    "Enviando...": "Sending...", "✓ Mensagem enviada!": "✓ Message sent!",
+    "Erro — tente de novo": "Error — try again", "Abrindo seu e-mail...": "Opening your email...",
+    // footer
+    "Engenheiro de Software": "Software Engineer",
+    "© 2026 Thiago Henrique. Todos os direitos reservados.": "© 2026 Thiago Henrique. All rights reserved.",
+  };
+
+  // Inverse map (EN→PT) for switching back, and the few mixed-markup / attribute / <head> strings.
+  var EN2PT = {};
+  Object.keys(PT2EN).forEach(function (k) { EN2PT[PT2EN[k]] = k; });
+
+  var I18N_HTML = {
+    mission: {
+      pt: 'Traduzir requisitos de negócio complexos em soluções técnicas robustas. Atualmente focado em <span class="text-white">Node.js &amp; TypeScript</span>, <span class="text-white">React &amp; Python</span> e <span class="text-white">Blue Team</span>.',
+      en: 'Translate complex business requirements into robust technical solutions. Currently focused on <span class="text-white">Node.js &amp; TypeScript</span>, <span class="text-white">React &amp; Python</span> and <span class="text-white">Blue Team</span>.',
+    },
+  };
+
+  var I18N_ATTR = [
+    { sel: "#contact-name", attr: "placeholder", pt: "Seu Nome", en: "Your Name" },
+    { sel: "#contact-subject", attr: "placeholder", pt: "Consulta de projeto / Colaboração", en: "Project inquiry / Collaboration" },
+    { sel: "#contact-message", attr: "placeholder", pt: "Conte-me sobre seu projeto, prazo e objetivos...", en: "Tell me about your project, timeline and goals..." },
+  ];
+
+  var I18N_TITLE = {
+    pt: "Thiago Henrique | Engenheiro de Software Full Stack",
+    en: "Thiago Henrique | Full Stack Software Engineer",
+  };
+
+  // tr(): translate one string for the current language (used by the contact-form status).
+  function tr(s) { return CURRENT_LANG === "en" && PT2EN[s] != null ? PT2EN[s] : s; }
+
+  // Walk every text node under `root`, skipping <script>/<style> and the mixed-markup blocks
+  // handled separately, calling fn(textNode) on each.
+  function walkTextNodes(root, fn) {
+    for (var n = root.firstChild; n; n = n.nextSibling) {
+      if (n.nodeType === 3) { fn(n); continue; }
+      if (n.nodeType !== 1) continue;
+      var tag = n.tagName;
+      if (tag === "SCRIPT" || tag === "STYLE" || n.hasAttribute("data-i18n-html")) continue;
+      walkTextNodes(n, fn);
+    }
+  }
+
+  function applyLang(lang) {
+    var map = lang === "en" ? PT2EN : EN2PT;
+    walkTextNodes(document.body, function (t) {
+      var raw = t.nodeValue;
+      var key = raw.trim();
+      if (!key || map[key] == null) return;
+      var lead = raw.match(/^\s*/)[0];
+      var trail = raw.match(/\s*$/)[0];
+      t.nodeValue = lead + map[key] + trail;
+    });
+    // mixed-markup blocks (keyed, so no inverse map needed)
+    document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+      var entry = I18N_HTML[el.getAttribute("data-i18n-html")];
+      if (entry) el.innerHTML = entry[lang] || entry.pt;
+    });
+    // attributes (placeholders)
+    I18N_ATTR.forEach(function (a) {
+      var el = document.querySelector(a.sel);
+      if (el) el.setAttribute(a.attr, lang === "en" ? a.en : a.pt);
+    });
+    // document metadata
+    document.documentElement.setAttribute("lang", lang === "en" ? "en" : "pt-BR");
+    document.title = lang === "en" ? I18N_TITLE.en : I18N_TITLE.pt;
+    // let the terminal re-capture its (now translated) source on any later replay
+    TERMINAL_SEQ = null;
+    CURRENT_LANG = lang;
+    try { localStorage.setItem("lang", lang); } catch (e) { /* private mode */ }
+  }
+
+  function setupLangSwitch() {
+    var sw = document.getElementById("lang-switch");
+    if (!sw) return;
+    var opts = Array.prototype.slice.call(sw.querySelectorAll(".lang-opt"));
+    function refresh(lang) {
+      opts.forEach(function (b) {
+        var on = b.getAttribute("data-lang") === lang;
+        b.classList.toggle("is-active", on);
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+    }
+    sw.addEventListener("click", function (e) {
+      var b = e.target.closest ? e.target.closest(".lang-opt") : null;
+      if (!b) return;
+      var lang = b.getAttribute("data-lang");
+      if (lang === CURRENT_LANG) return;
+      applyLang(lang);
+      refresh(lang);
+    });
+    var saved = null;
+    try { saved = localStorage.getItem("lang"); } catch (e) { /* private mode */ }
+    var initial = saved === "en" ? "en" : "pt";
+    if (initial === "en") applyLang("en"); else CURRENT_LANG = "pt";
+    refresh(initial);
+  }
+
   // This script is the last classic script in <body>, so the whole DOM above it already exists —
   // run immediately instead of waiting for DOMContentLoaded (which ES-module CDN imports can delay).
   renderIcons();
@@ -318,4 +504,5 @@
   revealOnScroll();
   setupContactForm();
   setupSectionNav();
+  setupLangSwitch();
 })();

@@ -122,6 +122,38 @@
     cursor: pointer;
   }
 }
+/* ---- Language switch (PT / EN toggle) ---- */
+#lang-switch {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(26, 26, 26, 0.9);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  font-family: "Geist Mono", monospace;
+}
+#lang-switch .lang-opt {
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #8b949e;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+#lang-switch .lang-opt:hover { color: #d4af37; }
+#lang-switch .lang-opt.is-active { background: #e65320; color: #fff; }
+
 #mobile-menu {
   position: fixed;
   inset: 0;

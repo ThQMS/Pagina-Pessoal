@@ -20,7 +20,7 @@
 <!-- skills-globe.css — styling for the 3D skill-icon nodes -->
 <link href="assets/css/skills-globe.css?v=4" rel="stylesheet"/>
 <!-- effects.css — ambient dev/architecture effects: matrix rain, compile bar, blueprint spine -->
-<link href="assets/css/effects.css?v=3" rel="stylesheet"/>
+<link href="assets/css/effects.css?v=4" rel="stylesheet"/>
 
 <!-- import map — resolves the "three" ES module + addons from a CDN for the skills globe -->
 <script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script>
@@ -43,6 +43,9 @@
 <div class="min-h-screen bg-dark-200 text-foreground relative overflow-x-hidden">
 <div class="cursor-glow hidden lg:block"></div>
 <div class="fixed inset-0 grid-bg pointer-events-none z-0"></div>
+
+<!-- language-switch (PT / EN toggle) -->
+<div id="lang-switch" role="group" aria-label="Selecionar idioma / Select language"><button type="button" class="lang-opt is-active" data-lang="pt" aria-pressed="true">PT</button><button type="button" class="lang-opt" data-lang="en" aria-pressed="false">EN</button></div>
 
 <!-- right-rail-nav (lg only) -->
 <div id="rail-nav" class="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-center gap-4">
@@ -254,7 +257,7 @@
 <p><span class="text-blue-400">➜</span> <span class="text-purple-400">whoami</span></p>
 <p class="pl-4 border-l-2 border-white/10">Sou Engenheiro de Software full stack com 3 anos de experiência construindo sistemas web escaláveis — do design da arquitetura à entrega. Atualmente me aprofundando em segurança defensiva (Blue Team).</p>
 <p><span class="text-blue-400">➜</span> <span class="text-purple-400">cat</span> mission.txt</p>
-<p class="pl-4 border-l-2 border-white/10 text-gray-400">Traduzir requisitos de negócio complexos em soluções técnicas robustas. Atualmente focado em <span class="text-white">Node.js &amp; TypeScript</span>, <span class="text-white">React &amp; Python</span> e <span class="text-white">Blue Team</span>.</p>
+<p class="pl-4 border-l-2 border-white/10 text-gray-400" data-i18n-html="mission">Traduzir requisitos de negócio complexos em soluções técnicas robustas. Atualmente focado em <span class="text-white">Node.js &amp; TypeScript</span>, <span class="text-white">React &amp; Python</span> e <span class="text-white">Blue Team</span>.</p>
 </div>
 </div>
 <div class="grid grid-cols-3 gap-4">
@@ -686,7 +689,7 @@
 <!-- Lucide runtime (vendored locally) — renders every <i data-lucide> placeholder into an inline SVG; deferred so it never blocks first paint -->
 <script defer src="assets/js/lucide.min.js"></script>
 <!-- interactions.js — Lucide init, terminal typewriter, scroll reveals, nav buttons, contact form; deferred to run after lucide, in order -->
-<script defer src="assets/js/interactions.js?v=2"></script>
+<script defer src="assets/js/interactions.js?v=3"></script>
 <!-- effects.js — decorative ambient effects: matrix code rain, compile progress bar, blueprint spine -->
 <script defer src="assets/js/effects.js?v=4"></script>
 <!-- skills-globe.js — Three.js CSS3D sphere of Devicon skill icons (slow auto-rotate + drag); uses the import map above -->
