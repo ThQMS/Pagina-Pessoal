@@ -85,6 +85,16 @@
     if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  // Ordered list of the page sections — drives the right rail's active dot,
+  // the keyboard (↑/↓) navigation and the hero's "scroll down" chevron.
+  var SECTIONS = ["hero", "about", "skills", "experience", "projects", "formacao", "contact"];
+  var currentIndex = 0;
+
+  function goSection(dir) {
+    var next = Math.min(SECTIONS.length - 1, Math.max(0, currentIndex + dir));
+    if (next !== currentIndex) scrollToSection(SECTIONS[next]);
+  }
+
   // Mobile hamburger menu: open/close the slide-in panel and navigate on item tap.
   function setupMobileMenu() {
     var toggle = document.getElementById("mobile-menu-toggle");
@@ -117,6 +127,10 @@
     }
     if (btn.id === "btn-view-projects") {
       scrollToSection("projects");
+      return;
+    }
+    if (btn.id === "scroll-down-hint") {
+      goSection(1);
       return;
     }
     var navId = NAV_TARGETS[btn.getAttribute("aria-label")];
@@ -209,10 +223,99 @@
     });
   }
 
+  // ---- Section navigation: right-rail active dot + keyboard (↑/↓) ----
+  // Lights up the rail dot for the section currently in view (and keeps its name
+  // label visible, not only on hover), and lets the visitor move section-by-section
+  // with the arrow keys. Runs after renderIcons() so the <i> placeholders are SVGs.
+  function setupSectionNav() {
+    var rail = document.getElementById("rail-nav");
+    var buttons = rail ? Array.prototype.slice.call(rail.querySelectorAll("button")) : [];
+
+    // Resolve the state-carrying children of one rail button.
+    function parts(btn) {
+      var labelDiv = btn.children[0];
+      var spans = labelDiv.querySelectorAll("span");
+      var wrapper = btn.children[1];
+      return {
+        labelDiv: labelDiv,
+        labelSpan: spans[spans.length - 1], // the section name (last span; first is the "＞")
+        ring: wrapper.children[0],
+        dot: wrapper.children[1],
+        icon: wrapper.children[1].firstElementChild, // <svg> after Lucide render
+      };
+    }
+
+    // Capture the active/inactive class strings straight from the markup:
+    // button[0] ships active, button[1] inactive — so the look stays in sync with the theme.
+    var ACT = null, INA = null;
+    if (buttons.length >= 2) {
+      var p0 = parts(buttons[0]), p1 = parts(buttons[1]);
+      ACT = { span: p0.labelSpan.getAttribute("class"), ring: p0.ring.getAttribute("class"), dot: p0.dot.getAttribute("class") };
+      INA = { span: p1.labelSpan.getAttribute("class"), ring: p1.ring.getAttribute("class"), dot: p1.dot.getAttribute("class") };
+    }
+
+    function setIcon(icon, on) {
+      if (!icon) return;
+      icon.classList.remove("w-0", "h-0", "opacity-0", "scale-0", "w-4", "h-4", "opacity-100", "scale-100");
+      icon.classList.add.apply(icon.classList, on ? ["w-4", "h-4", "opacity-100", "scale-100"] : ["w-0", "h-0", "opacity-0", "scale-0"]);
+    }
+
+    function paint(idx) {
+      if (!ACT) return;
+      buttons.forEach(function (btn, i) {
+        var p = parts(btn), on = i === idx, t = on ? ACT : INA;
+        p.labelSpan.setAttribute("class", t.span);
+        p.ring.setAttribute("class", t.ring);
+        p.dot.setAttribute("class", t.dot);
+        setIcon(p.icon, on);
+        // Keep the active section's name permanently visible; others revert to hover-only.
+        p.labelDiv.style.opacity = on ? "1" : "";
+        p.labelDiv.style.transform = on ? "translateX(0)" : "";
+      });
+    }
+
+    var sectionEls = SECTIONS.map(function (id) { return document.getElementById(id); });
+
+    // Scrollspy: the active section is the last one whose top has crossed ~35% of the
+    // viewport; at the very bottom of the page we force the last section (which may be
+    // too short to ever reach the middle line).
+    function computeActive() {
+      var line = window.innerHeight * 0.35;
+      var idx = 0;
+      for (var i = 0; i < sectionEls.length; i++) {
+        var el = sectionEls[i];
+        if (el && el.getBoundingClientRect().top <= line) idx = i;
+      }
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) idx = SECTIONS.length - 1;
+      if (idx !== currentIndex) { currentIndex = idx; paint(idx); }
+    }
+
+    var ticking = false;
+    window.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () { computeActive(); ticking = false; });
+    }, { passive: true });
+    window.addEventListener("resize", computeActive);
+
+    // Arrow keys move between sections (ignored while typing in the contact form).
+    document.addEventListener("keydown", function (e) {
+      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
+      var el = e.target, tag = (el && el.tagName ? el.tagName : "").toLowerCase();
+      if (tag === "input" || tag === "textarea" || (el && el.isContentEditable)) return;
+      if (e.key === "ArrowDown" || e.key === "PageDown") { e.preventDefault(); goSection(1); }
+      else if (e.key === "ArrowUp" || e.key === "PageUp") { e.preventDefault(); goSection(-1); }
+    });
+
+    paint(currentIndex);
+    computeActive();
+  }
+
   // This script is the last classic script in <body>, so the whole DOM above it already exists —
   // run immediately instead of waiting for DOMContentLoaded (which ES-module CDN imports can delay).
   renderIcons();
   typeTerminal();
   revealOnScroll();
   setupContactForm();
+  setupSectionNav();
 })();
