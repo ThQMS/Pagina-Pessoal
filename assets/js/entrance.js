@@ -42,7 +42,7 @@
     window.__entranceRunning = true; // tells effects.js's safety timeout to stand down
 
     var W = window.innerWidth, H = window.innerHeight;
-    var RES = desktop ? 1 : 0.85;
+    var RES = desktop ? 1 : 0.78;
     c.width = Math.round(W * RES);
     c.height = Math.round(H * RES);
     c.style.width = "100%";
@@ -56,11 +56,13 @@
     for (var d = 0; d < 8; d++) DIRS.push([Math.cos((d * Math.PI) / 4), Math.sin((d * Math.PI) / 4)]);
 
     // ---- coverage grid: tells the router where the board is still empty ----
-    var CELL = desktop ? 74 : 62;
+    // Coarser cells + a lower target on phones: the board reads as full with noticeably less
+    // routing, which is the single biggest lever on how much work the entrance does there.
+    var CELL = desktop ? 74 : 92;
     var COLS = Math.ceil(W / CELL), ROWS = Math.ceil(H / CELL);
     var grid = new Uint8Array(COLS * ROWS);
     var covered = 0, TOTAL = COLS * ROWS;
-    var TARGET = 0.9;                              // board is "done" at 90% of cells touched
+    var TARGET = desktop ? 0.9 : 0.8;              // fraction of cells touched before it's "done"
     function mark(x, y) {
       var gx = (x / CELL) | 0, gy = (y / CELL) | 0;
       if (gx < 0 || gy < 0 || gx >= COLS || gy >= ROWS) return;
@@ -85,8 +87,8 @@
       return ((Math.round(ang / (Math.PI / 4)) % 8) + 8) % 8;
     }
 
-    var MAX_TIPS = desktop ? 60 : 34;
-    var SPEED = Math.sqrt(W * W + H * H) / (desktop ? 150 : 115); // px per frame
+    var MAX_TIPS = desktop ? 60 : 20;                             // fewer simultaneous routes
+    var SPEED = Math.sqrt(W * W + H * H) / (desktop ? 150 : 95);  // px per frame — faster fill = fewer frames
 
     var cx = W / 2, cy = H / 2;
     var tips = [];
@@ -100,6 +102,7 @@
       ctx.arc(x, y, hot ? 3.6 : 2.6, 0, Math.PI * 2);
       ctx.fillStyle = hot ? GOLD_HOT : GOLD;
       ctx.fill();
+      if (!desktop && !hot) return;              // phones: skip the outer ring on ordinary pads
       ctx.beginPath();
       ctx.arc(x, y, hot ? 6.5 : 5, 0, Math.PI * 2);
       ctx.strokeStyle = "rgba(212,175,55,0.45)";
@@ -169,8 +172,8 @@
         // Keep the board filling: whenever routing thins out, start fresh tips aimed at the
         // emptiest area, so the traces reach every corner instead of stalling in the middle.
         var done = covered / TOTAL >= TARGET;
-        if (!done && tips.length < (desktop ? 14 : 9)) {
-          for (var r = 0; r < 3 && tips.length < MAX_TIPS; r++) {
+        if (!done && tips.length < (desktop ? 14 : 6)) {
+          for (var r = 0; r < (desktop ? 3 : 2) && tips.length < MAX_TIPS; r++) {
             var spot = nearestEmpty(Math.random() * W, Math.random() * H);
             if (!spot) break;
             var sx = Math.max(0, Math.min(W, spot.x + (Math.random() - 0.5) * CELL * 3));
