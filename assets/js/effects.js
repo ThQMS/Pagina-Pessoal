@@ -169,8 +169,11 @@
     var el = document.getElementById("boot");
     if (!el) return;
     el.addEventListener("click", function () { el.classList.add("boot-skip"); });
-    // Safety net: guarantee the overlay is gone even if the CSS animation never runs.
-    window.setTimeout(function () { el.classList.add("boot-skip"); }, 2600);
+    // Safety net: guarantee the overlay is gone if the circuit entrance never runs (script blocked,
+    // canvas unavailable…). While it IS running it owns the timing, so don't cut its sequence short.
+    window.setTimeout(function () {
+      if (!window.__entranceRunning) el.classList.add("boot-skip");
+    }, 4400);
   }
 
   /* ---------------- 5. Count-up on stats (when they scroll into view) ---------------- */

@@ -20,7 +20,7 @@
 <!-- skills-globe.css — styling for the 3D skill-icon nodes -->
 <link href="assets/css/skills-globe.css?v=4" rel="stylesheet"/>
 <!-- effects.css — ambient dev/architecture effects: matrix rain, compile bar, blueprint spine -->
-<link href="assets/css/effects.css?v=4" rel="stylesheet"/>
+<link href="assets/css/effects.css?v=5" rel="stylesheet"/>
 
 <!-- import map — resolves the "three" ES module + addons from a CDN for the skills globe -->
 <script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script>
@@ -36,7 +36,8 @@
 <p class="boot-line">&gt; loading kernel ...... <span class="ok">[OK]</span></p>
 <p class="boot-line">&gt; mounting /skills ..... <span class="ok">[OK]</span></p>
 <p class="boot-line">&gt; starting ui ......... <span class="ok">[OK]</span></p>
-<p class="boot-line">&gt; ready<span class="boot-cur">_</span></p>
+<p class="boot-line">&gt; tsc --build portfolio</p>
+<div class="boot-build"><div class="boot-bar"><div class="boot-bar-fill"></div></div><span class="boot-pct">100%</span></div>
 </div></div>
 
 <!-- app-shell -->
@@ -691,8 +692,10 @@
 <!-- interactions.js — Lucide init, terminal typewriter, scroll reveals, nav buttons, contact form; deferred to run after lucide, in order -->
 <script defer src="assets/js/interactions.js?v=3"></script>
 <!-- effects.js — decorative ambient effects: matrix code rain, compile progress bar, blueprint spine -->
-<script defer src="assets/js/effects.js?v=4"></script>
+<script defer src="assets/js/effects.js?v=6"></script>
+<!-- entrance.js — "compile sweep": gold scanline reveals the page when the build meter completes -->
+<script defer src="assets/js/entrance.js?v=7"></script>
 <!-- skills-globe.js — Three.js CSS3D sphere of Devicon skill icons (slow auto-rotate + drag); uses the import map above -->
-<script type="module" src="assets/js/skills-globe.js?v=5"></script>
+<script type="module" src="assets/js/skills-globe.js?v=6"></script>
 </body>
 </html>

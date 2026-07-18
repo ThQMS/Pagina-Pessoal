@@ -322,9 +322,13 @@ function renderLightGlobe(mount) {
   container.insertBefore(wire, container.firstChild);
   var wctx = wire.getContext("2d");
   var DPR = Math.min(window.devicePixelRatio || 1, 1.5);
-  var geo = buildGeodesic(2); // detail 2 — same dense cage as the desktop globe
+  // detail 2 is the desktop-matching dense cage (~480 edges); phones use detail 1 (~120), which is
+  // the difference between a laggy drag and a smooth one.
+  var geo = buildGeodesic(window.matchMedia("(min-width: 768px)").matches ? 2 : 1);
   var wv = geo.verts, wedges = geo.edges;
   var wsize = 0;
+  var wproj = wv.map(function () { return { x: 0, y: 0, z: 0 }; }); // reused each frame, no allocation
+  var EDGE_BUCKETS = 5;                                             // edges batched by depth/opacity
 
   var BASE = 0.008;
   var angY = 0, angX = -0.32, velY = BASE, velX = 0;
@@ -348,10 +352,24 @@ function renderLightGlobe(mount) {
   window.addEventListener("pointermove", move);
   window.addEventListener("pointerup", up);
 
+  // Only animate while the globe is actually on screen: it used to spin continuously from page
+  // load, competing for the phone's main thread with the entrance animation and the rest of the page.
+  var onScreen = true, pageVisible = !document.hidden;
+  if ("IntersectionObserver" in window) {
+    onScreen = false;
+    new IntersectionObserver(function (entries) {
+      onScreen = entries.some(function (e) { return e.isIntersecting; });
+    }, { rootMargin: "120px" }).observe(mount);
+  }
+  document.addEventListener("visibilitychange", function () {
+    pageVisible = !document.hidden;
+  });
+
   var last = 0;
   function frame(t) {
     requestAnimationFrame(frame);
-    if (t - last < 33) return; // ~30fps is plenty and light
+    if (!onScreen || !pageVisible) return;  // idle while off-screen or in a background tab
+    if (!dragging && t - last < 33) return; // ~30fps idling; uncapped while dragging, so it tracks the finger
     last = t;
     if (!dragging) {
       angY += velY; angX += velX;
@@ -372,19 +390,28 @@ function renderLightGlobe(mount) {
     }
     wctx.clearRect(0, 0, w, h);
     var Rw = R * 0.82;
-    var wp = wv.map(function (v) {
-      var x1 = v[0] * cy_ - v[2] * sy, z1 = v[0] * sy + v[2] * cy_;
-      var y2 = v[1] * cx_ - z1 * sx, z2 = v[1] * sx + z1 * cx_;
-      return { x: cx + x1 * Rw, y: cy + y2 * Rw, z: z2 };
-    });
+    for (var vi = 0; vi < wv.length; vi++) {              // project in place — no per-frame garbage
+      var v = wv[vi], p3 = wproj[vi];
+      var vx1 = v[0] * cy_ - v[2] * sy, vz1 = v[0] * sy + v[2] * cy_;
+      var vy2 = v[1] * cx_ - vz1 * sx, vz2 = v[1] * sx + vz1 * cx_;
+      p3.x = cx + vx1 * Rw; p3.y = cy + vy2 * Rw; p3.z = vz2;
+    }
+    // Batch the cage by depth: one stroke() per opacity band instead of one per edge (~480 → 5).
     wctx.lineWidth = 1;
-    for (var e = 0; e < wedges.length; e++) {
-      var pa = wp[wedges[e][0]], pb = wp[wedges[e][1]];
-      var op = ((pa.z + pb.z) / 2 + 1.15) / 2.15 * 0.26; // ~0.02 back → ~0.26 front, like desktop
-      wctx.strokeStyle = "rgba(212,175,55," + op.toFixed(3) + ")";
+    for (var band = 0; band < EDGE_BUCKETS; band++) {
       wctx.beginPath();
-      wctx.moveTo(pa.x, pa.y);
-      wctx.lineTo(pb.x, pb.y);
+      var drew = false;
+      for (var e = 0; e < wedges.length; e++) {
+        var pa = wproj[wedges[e][0]], pb = wproj[wedges[e][1]];
+        var depth = ((pa.z + pb.z) / 2 + 1.15) / 2.15;     // 0 back .. 1 front
+        if (((depth * (EDGE_BUCKETS - 1) + 0.5) | 0) !== band) continue;
+        wctx.moveTo(pa.x, pa.y);
+        wctx.lineTo(pb.x, pb.y);
+        drew = true;
+      }
+      if (!drew) continue;
+      var op = (band / (EDGE_BUCKETS - 1)) * 0.26;         // ~0.02 back → ~0.26 front, like desktop
+      wctx.strokeStyle = "rgba(212,175,55," + op.toFixed(3) + ")";
       wctx.stroke();
     }
 
@@ -396,12 +423,17 @@ function renderLightGlobe(mount) {
       var z2 = n.y * sx + z1 * cx_;
       var sc = (z2 + 1.7) / 2.7;                                  // depth -> scale
       var op = Math.max(0, Math.min(1, (z2 + 1.1) / 1.7));        // depth -> opacity
-      n.el.style.left = (cx + x1 * R) + "px";
-      n.el.style.top = (cy + y2 * R) + "px";
-      n.el.style.transform = "translate(-50%,-50%) scale(" + sc.toFixed(3) + ")";
-      n.el.style.opacity = op.toFixed(2);
-      n.el.style.zIndex = ((z2 + 1) * 100) | 0;
-      n.el.style.pointerEvents = op > 0.75 ? "auto" : "none";
+      // Position purely with transform: writing left/top every frame forced a full layout pass for
+      // every node, which is what made dragging feel heavy on phones.
+      n.el.style.transform =
+        "translate3d(" + (cx + x1 * R).toFixed(1) + "px," + (cy + y2 * R).toFixed(1) + "px,0)" +
+        " translate(-50%,-50%) scale(" + sc.toFixed(3) + ")";
+      var opS = op.toFixed(2);
+      if (opS !== n.lastOp) { n.el.style.opacity = opS; n.lastOp = opS; }
+      var z = ((z2 + 1) * 100) | 0;
+      if (z !== n.lastZ) { n.el.style.zIndex = z; n.lastZ = z; }
+      var pe = op > 0.75 ? "auto" : "none";
+      if (pe !== n.lastPe) { n.el.style.pointerEvents = pe; n.lastPe = pe; }
     }
   }
   requestAnimationFrame(frame);

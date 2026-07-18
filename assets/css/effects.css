@@ -203,7 +203,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: bootHide 0.55s ease 2s forwards;
+  /* the compile-sweep entrance (entrance.js) drives the hide; effects.js keeps a safety fallback */
 }
 #boot .boot-inner {
   font-family: "Geist Mono", "Geist Mono Fallback", monospace;
@@ -221,6 +221,29 @@
 #boot .boot-line:nth-child(5) { animation-delay: 1.5s; }
 #boot .ok { color: #00c758; }
 #boot .boot-cur { animation: bootBlink 1s step-end infinite; }
+/* build meter: fills right before the compile sweep reveals the page */
+#boot .boot-build {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 10px; opacity: 0;
+  animation: bootLine 0.16s ease 1.75s forwards;
+}
+#boot .boot-bar {
+  flex: 1; height: 6px; border-radius: 3px;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  overflow: hidden;
+}
+#boot .boot-bar-fill {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, #7d1f35, #d4af37);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.65);
+  animation: bootBuild 0.62s ease-out 1.85s forwards;
+}
+#boot .boot-pct {
+  font-size: 11px; color: #d4af37; opacity: 0;
+  animation: bootLine 0.16s ease 2.42s forwards;
+}
+@keyframes bootBuild { to { width: 100%; } }
 #boot.boot-skip { animation: none; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease; }
 @keyframes bootLine { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 @keyframes bootHide { to { opacity: 0; visibility: hidden; pointer-events: none; } }
