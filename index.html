@@ -19,8 +19,8 @@
 <link href="assets/css/scroll-fixes.css" rel="stylesheet"/>
 <!-- skills-globe.css — styling for the 3D skill-icon nodes -->
 <link href="assets/css/skills-globe.css?v=4" rel="stylesheet"/>
-<!-- effects.css — ambient dev/architecture effects: matrix rain, compile bar, blueprint spine -->
-<link href="assets/css/effects.css?v=5" rel="stylesheet"/>
+<!-- effects.css — ambient dev/architecture effects: matrix rain, compile bar, blueprint spine, intro overlay -->
+<link href="assets/css/effects.css?v=8" rel="stylesheet"/>
 
 <!-- import map — resolves the "three" ES module + addons from a CDN for the skills globe -->
 <script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script>
@@ -30,15 +30,8 @@
 </head>
 <body class="geist_a71539c9-module__T19VSG__variable geist_mono_8d43a2aa-module__8Li5zG__variable antialiased">
 
-<!-- boot-sequence (CSS-driven terminal boot overlay; auto-hides, click to skip) -->
-<div id="boot" aria-hidden="true"><div class="boot-inner">
-<p class="boot-line">&gt; booting portfolio.sys</p>
-<p class="boot-line">&gt; loading kernel ...... <span class="ok">[OK]</span></p>
-<p class="boot-line">&gt; mounting /skills ..... <span class="ok">[OK]</span></p>
-<p class="boot-line">&gt; starting ui ......... <span class="ok">[OK]</span></p>
-<p class="boot-line">&gt; tsc --build portfolio</p>
-<div class="boot-build"><div class="boot-bar"><div class="boot-bar-fill"></div></div><span class="boot-pct">100%</span></div>
-</div></div>
+<!-- boot overlay: dark veil for the data-tunnel entrance (entrance.js drives it; click / any key skips) -->
+<div id="boot" aria-hidden="true"><button type="button" class="boot-skip-btn" tabindex="-1">pular ›</button></div>
 
 <!-- app-shell -->
 <div class="min-h-screen bg-dark-200 text-foreground relative overflow-x-hidden">
@@ -239,7 +232,7 @@
 <div class="relative w-48 h-48 mx-auto mb-8">
 <div class="absolute inset-0 rounded-full border-2 border-orange-500/30 animate-spin-slow-reverse border-t-transparent border-b-transparent"></div>
 <div class="absolute inset-2 rounded-full border-2 border-blue-500/30 animate-spin-slow border-l-transparent border-r-transparent"></div>
-<div class="absolute inset-4 rounded-full overflow-hidden bg-dark-200 border border-dark-300 shadow-inner"><img alt="Foto de Thiago Henrique" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" decoding="async" loading="lazy" src="assets/images/foto_thiago.jpg" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent;"/></div>
+<div class="absolute inset-4 rounded-full overflow-hidden bg-dark-200 border border-dark-300 shadow-inner"><img alt="Foto de Thiago Henrique" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" decoding="async" loading="lazy" src="assets/images/foto_thiago.jpg" data-depth="assets/images/foto_thiago_depth.jpg" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent;"/></div>
 <div class="absolute bottom-4 right-4 w-4 h-4 bg-green-500 rounded-full border-2 border-[#1e1e1e] animate-pulse"></div>
 </div>
 <div class="font-mono text-sm space-y-3">
@@ -693,9 +686,11 @@
 <script defer src="assets/js/interactions.js?v=3"></script>
 <!-- effects.js — decorative ambient effects: matrix code rain, compile progress bar, blueprint spine -->
 <script defer src="assets/js/effects.js?v=6"></script>
-<!-- entrance.js — "compile sweep": gold compiler seam sweeps across, code rains ahead of it, site revealed in its wake -->
-<script defer src="assets/js/entrance.js?v=12"></script>
+<!-- entrance.js — "data tunnel": warp through gold light streaks, the tunnel exit opens onto the site -->
+<script defer src="assets/js/entrance.js?v=16"></script>
 <!-- skills-globe.js — Three.js CSS3D sphere of Devicon skill icons (slow auto-rotate + drag); uses the import map above -->
+<!-- photo-depth.js — "3D photo": WebGL parallax on the profile photo driven by a precomputed depth map (Depth Anything v2) -->
+<script defer src="assets/js/photo-depth.js?v=1"></script>
 <script type="module" src="assets/js/skills-globe.js?v=6"></script>
 </body>
 </html>

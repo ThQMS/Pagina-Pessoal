@@ -1,12 +1,12 @@
-/* entrance.js — "compile sweep" entrance.
- * When the boot screen's build meter fills, a bright gold "compiler head" (a glowing vertical seam)
- * sweeps left→right across the viewport. AHEAD of it (the still-dark region) lines of code rain
- * down over the veil; in its WAKE the real site is uncovered and dragged in from the left, as if the
- * code were being compiled straight into the page. The seam consumes the code field as it advances.
+/* entrance.js — "data tunnel" entrance.
+ * The camera travels down a tunnel of gold/wine light streaks (packets racing through fibre) that
+ * accelerates into warp; the light at the end of the tunnel then opens up and becomes the site.
+ * Drawn live on a canvas at the screen's own resolution, so it stays sharp on any display.
  *
- * Mechanic mirrors the sibling portfolios: the dark #boot overlay is revealed with a cheap clip-path
- * inset (Leonel's tornado) and the page shell is translated in behind the seam (Geovana's swarm), so
- * the site feels pulled along rather than cross-faded. Reduced resolution + 30fps cap on phones.
+ *  - the #boot overlay is the dark veil; a growing radial mask cuts the "tunnel exit" through it
+ *  - desktop: the page also zooms/unblurs in through the exit (too heavy for phones)
+ *  - click / tap / any key / "skip" button jumps straight to the exit
+ *  - plays once per browser session (reloads go straight to the site)
  * Honours prefers-reduced-motion.
  */
 (function () {
@@ -15,161 +15,162 @@
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var desktop = window.matchMedia("(min-width: 768px)").matches;
 
-  var GOLD = "#d4af37";
-  var GOLD_HOT = "#f9edc4";
+  var G = [212, 175, 55], HOT = [249, 237, 196], WINE = [168, 44, 74];
+  var EXIT_AT = 2.25, EXIT_DUR = 0.8, END = 3.3; // seconds
 
-  // Code-ish glyphs — letters + operators so the rain reads as source, not random noise.
-  var CHARS = "01{}()[]<>/;=+*-&|!.#$_:absync await return const let=>funclassimportexport".split("");
+  function rgba(c, a) { return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + a + ")"; }
+  function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+  function seg(t, a, b) { return clamp((t - a) / (b - a), 0, 1); }
+  function eout(t) { return 1 - Math.pow(1 - t, 3); }
+  function ein(t) { return t * t * t; }
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+
+  function seen() {
+    try { return sessionStorage.getItem("introSeen") === "1"; } catch (e) { return false; }
+  }
+  function markSeen() {
+    try { sessionStorage.setItem("introSeen", "1"); } catch (e) {}
+  }
 
   function run() {
     var boot = document.getElementById("boot");
-    if (reduce) { if (boot) boot.classList.add("boot-skip"); return; }
-    if (!boot || boot.classList.contains("boot-skip")) { if (boot) boot.style.display = "none"; return; }
+    if (!boot) return;
+    if (reduce || seen()) { boot.classList.add("boot-skip"); boot.style.display = "none"; return; }
 
-    // The terminal text has done its job — fade it before the sweep so the code rain draws clean.
-    var inner = boot.querySelector(".boot-inner");
-    if (inner) { inner.style.transition = "opacity .25s ease"; inner.style.opacity = "0"; }
-
-    var c = document.createElement("canvas");
-    c.setAttribute("aria-hidden", "true");
-    Object.assign(c.style, {
-      position: "fixed", inset: "0", zIndex: "10000", pointerEvents: "none",
-      transition: "opacity .3s ease",
-    });
-    document.body.appendChild(c);
-    var ctx = c.getContext("2d");
-    if (!ctx) { boot.classList.add("boot-skip"); c.remove(); return; }
+    var cv = document.createElement("canvas");
+    cv.setAttribute("aria-hidden", "true");
+    cv.style.cssText = "position:fixed;inset:0;width:100%;height:100%;z-index:10000;pointer-events:none;";
+    var ctx = cv.getContext("2d");
+    if (!ctx) { boot.classList.add("boot-skip"); return; }
+    document.body.appendChild(cv);
     window.__entranceRunning = true; // tells effects.js's safety timeout to stand down
 
-    var W = window.innerWidth, H = window.innerHeight;
-    var RES = desktop ? 1 : 0.8;
-    c.width = Math.round(W * RES);
-    c.height = Math.round(H * RES);
-    c.style.width = "100%";
-    c.style.height = "100%";
-    if (RES !== 1) ctx.scale(RES, RES);
-    ctx.textBaseline = "top";
-
-    // ---- code rain columns (drawn only in the dark region ahead of the seam) ----
-    var FONT = desktop ? 15 : 13;
-    var GAP = FONT + (desktop ? 6 : 8);
-    var NCOLS = Math.ceil(W / GAP) + 1;
-    var cols = [];
-    for (var i = 0; i < NCOLS; i++) {
-      cols.push({
-        x: i * GAP,
-        y: Math.random() * H,                       // spread across the screen from frame 1
-        spd: (desktop ? 2.4 : 2.0) + Math.random() * 3.6,
-        len: (desktop ? 5 : 4) + (Math.random() * (desktop ? 7 : 4) | 0),
-      });
-    }
+    var skipBtn = boot.querySelector(".boot-skip-btn");
+    try { if (localStorage.getItem("lang") === "en" && skipBtn) skipBtn.textContent = "skip ›"; } catch (e) {}
 
     var shell = document.querySelector(".min-h-screen.bg-dark-200");
-    var DRAG = 44;                                  // px the page is dragged in behind the seam
-    if (desktop && shell) {
-      shell.style.willChange = "transform";
-      shell.style.transform = "translate3d(" + (-DRAG) + "px,0,0)";
-      void shell.offsetHeight;                      // promote the layer now, under the veil
+
+    var W, H, CX, CY, RMAX, F;
+    function resize() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth; H = window.innerHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      CX = W / 2; CY = H / 2; RMAX = Math.hypot(W, H) / 2; F = Math.min(W, H) * 0.5;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    // pre-rendered glow sprite (much cheaper than shadowBlur)
+    var SG = document.createElement("canvas");
+    SG.width = SG.height = 128;
+    (function () {
+      var g = SG.getContext("2d"), gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+      gr.addColorStop(0, rgba(HOT, 1)); gr.addColorStop(0.12, rgba(G, 0.9));
+      gr.addColorStop(0.4, rgba(G, 0.25)); gr.addColorStop(1, rgba(G, 0));
+      g.fillStyle = gr; g.fillRect(0, 0, 128, 128);
+    })();
+    function glow(x, y, r, a) {
+      if (a <= 0 || r <= 0) return;
+      ctx.globalAlpha = Math.min(1, a); ctx.drawImage(SG, x - r, y - r, 2 * r, 2 * r); ctx.globalAlpha = 1;
+    }
+    function hole(r) {
+      var m = r > 0 ? "radial-gradient(circle at 50% 50%, transparent " + r + "px, #000 " + (r + 50) + "px)" : "";
+      boot.style.webkitMaskImage = m; boot.style.maskImage = m;
+    }
+    function rise(p) {
+      if (!desktop || !shell) return;
+      shell.style.transform = p >= 1 ? "" : "scale(" + (0.82 + 0.18 * eout(p)).toFixed(4) + ")";
+      shell.style.filter = p >= 1 ? "" : "blur(" + ((1 - eout(p)) * 8).toFixed(2) + "px)";
     }
 
-    var start = null, lastFrame = 0, MIN_DT = desktop ? 0 : 32;
-    var RAIN = desktop ? 1100 : 900;                // let the code fill the screen before the sweep
-    var DUR = desktop ? 3200 : 2800, OUTRO = 420, PAD = 60;
-    var lastEdge = -100, done = false, outroStart = 0, cleaned = false;
+    // streaks on a cylinder ahead of the camera
+    var N = desktop ? 820 : 380, ZF = 40, P = [];
+    for (var i = 0; i < N; i++) {
+      var r = Math.random();
+      P.push({ a: rnd(0, 6.283), r: rnd(0.8, 1.7), z: rnd(0.5, ZF), col: r < 0.14 ? WINE : r < 0.24 ? HOT : G });
+    }
 
-    function cleanup() {
-      if (cleaned) return;
-      cleaned = true;
-      window.__entranceRunning = false;
-      c.remove();
+    if (desktop && shell) { shell.style.transformOrigin = "50% " + (window.scrollY + H / 2) + "px"; rise(0); }
+
+    var t = 0, last = null, camZ = 0, rot = 0, done = false;
+
+    function finish() {
+      if (done) return;
+      done = true;
+      markSeen();
+      window.removeEventListener("resize", resize);
+      cv.remove();
+      hole(0);
       boot.classList.add("boot-skip");
       boot.style.display = "none";
-      if (shell) { shell.style.transform = ""; shell.style.willChange = ""; }
+      if (shell) { shell.style.transform = ""; shell.style.filter = ""; shell.style.transformOrigin = ""; } // restore position:fixed children
+      window.__entranceRunning = false;
     }
-    window.setTimeout(cleanup, 2600 + RAIN + DUR + OUTRO + 1500);  // failsafe: never outlive the entrance
 
-    function draw(t) {
-      if (cleaned) return;
-      if (start === null) start = t;
-      if (t - lastFrame < MIN_DT) { requestAnimationFrame(draw); return; }
-      lastFrame = t;
+    function skip() { if (t < EXIT_AT) t = EXIT_AT; } // jump to the tunnel exit rather than cutting
+    boot.addEventListener("click", skip);
+    window.addEventListener("keydown", function onKey() { window.removeEventListener("keydown", onKey); skip(); });
+    window.setTimeout(finish, 9000); // hard failsafe
 
-      // Phase 1 (0..RAIN): code rains and fills the screen, seam parked off-screen left.
-      // Phase 2 (RAIN..RAIN+DUR): the seam sweeps across and compiles the site in.
-      var p = Math.min(1, Math.max(0, (t - start - RAIN) / DUR));
-      var eased = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;   // easeInOut
-      var seamX = -PAD + eased * (W + PAD * 2);
+    function frame(now) {
+      if (done) return;
+      var dt = last === null ? 0 : Math.min(0.05, (now - last) / 1000); // clamp: tab switches don't jump
+      last = now;
+      t += dt;
 
+      ctx.globalCompositeOperation = "source-over";
       ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = "lighter";
 
-      // --- code rain, only to the RIGHT of the seam (the still-dark, uncompiled region) ---
-      ctx.font = FONT + "px 'Geist Mono', 'Geist Mono Fallback', monospace";
-      for (var k = 0; k < cols.length; k++) {
-        var col = cols[k];
-        col.y += col.spd;
-        if (col.y - col.len * FONT > H) col.y = -Math.random() * H * 0.4;
-        if (col.x < seamX - GAP) continue;          // already consumed by the seam
-        var head = col.y;
-        for (var j = 0; j < col.len; j++) {
-          var cy = head - j * FONT;
-          if (cy < -FONT || cy > H) continue;
-          var ch = CHARS[(Math.random() * CHARS.length) | 0];
-          if (j === 0) {
-            ctx.fillStyle = GOLD_HOT;               // bright leading char
-          } else {
-            ctx.fillStyle = "rgba(212,175,55," + ((1 - j / col.len) * 0.55).toFixed(3) + ")";
-          }
-          ctx.fillText(ch, col.x, cy);
-        }
+      var v = 3 + 70 * ein(seg(t, 0.3, 2.4));
+      camZ += v * dt;
+      rot += dt * (0.25 + 0.9 * seg(t, 0.3, 2.4));
+      var L = 0.04 + v * 0.03, e = seg(t, EXIT_AT, EXIT_AT + EXIT_DUR), app = seg(t, 0, 0.5);
+
+      // faint structural rings
+      ctx.lineWidth = 1;
+      for (var k = 0; k < 12; k++) {
+        var zr = (((k * 3 - camZ) % 36) + 36) % 36 + 0.5;
+        ctx.strokeStyle = rgba(G, 0.08 * (1 - zr / 36) * app * (1 - e));
+        ctx.beginPath(); ctx.arc(CX, CY, 1.8 * F / zr, 0, 6.283); ctx.stroke();
       }
 
-      // --- the compiler head: a glowing vertical seam riding the boundary ---
-      if (seamX > -PAD && seamX < W + PAD) {
-        if (desktop) { ctx.shadowColor = "rgba(249,237,196,0.9)"; ctx.shadowBlur = 22; }
-        var g = ctx.createLinearGradient(seamX - 18, 0, seamX + 18, 0);
-        g.addColorStop(0, "rgba(212,175,55,0)");
-        g.addColorStop(0.5, "rgba(249,237,196,0.85)");
-        g.addColorStop(1, "rgba(212,175,55,0)");
-        ctx.fillStyle = g;
-        ctx.fillRect(seamX - 18, 0, 36, H);
-        ctx.shadowBlur = 0;
-        ctx.fillStyle = "rgba(249,237,196,0.95)";   // bright core line
-        ctx.fillRect(seamX - 1, 0, 2, H);
+      // light at the end of the tunnel
+      glow(CX, CY, 40 + 140 * seg(t, 0.5, 2.3), 0.25 + 0.6 * seg(t, 1.2, 2.3));
+
+      for (var j = 0; j < P.length; j++) {
+        var p = P[j], rel = p.z - camZ;
+        if (rel < 0.25) { if (e > 0) continue; p.z += ZF; rel += ZF; }
+        var ang = p.a + rot, x = Math.cos(ang) * p.r, y = Math.sin(ang) * p.r;
+        var x1 = CX + x * F / rel, y1 = CY + y * F / rel;
+        var x2 = CX + x * F / (rel + L), y2 = CY + y * F / (rel + L);
+        var a = clamp(1 - rel / ZF, 0, 1) * app;
+        ctx.strokeStyle = rgba(p.col, a * 0.8);
+        ctx.lineWidth = clamp(3 / rel, 0.5, 3);
+        ctx.beginPath(); ctx.moveTo(x2, y2); ctx.lineTo(x1, y1); ctx.stroke();
+        if (p.col === HOT) glow(x1, y1, clamp(14 / rel, 2, 14), a);
       }
 
-      // --- reveal the site in the seam's wake (clip the veil away from the left) ---
-      var edge = Math.max(0, Math.min(100, (seamX / W) * 100));
-      if (edge - lastEdge > 0.6) {                  // skip sub-pixel updates
-        lastEdge = edge;
-        boot.style.clipPath = "inset(0 0 0 " + edge.toFixed(1) + "%)";
+      // exit: the end of the tunnel opens onto the site
+      if (e > 0) {
+        var R = ein(e) * RMAX * 1.15;
+        hole(R);
+        ctx.strokeStyle = rgba(HOT, 0.7 * (1 - e)); ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(CX, CY, R + 25, 0, 6.283); ctx.stroke();
+        glow(CX, CY, R + 120, 0.5 * (1 - e));
+        if (skipBtn) skipBtn.style.visibility = "hidden"; // (opacity is held by its fade-in animation)
+        if (e >= 1) boot.style.opacity = "0";
       }
-      // --- drag the page in from behind the seam (desktop only; no shell layer to move on mobile) ---
-      if (desktop && shell && !done) {
-        shell.style.transform = "translate3d(" + (-DRAG * (1 - eased)).toFixed(2) + "px,0,0)";
-      }
+      rise(e);
+      cv.style.opacity = String(1 - seg(t, END - 0.4, END));
 
-      if (p >= 1 && !done) {
-        done = true;
-        outroStart = t;
-        boot.style.clipPath = "";
-        boot.classList.add("boot-skip");
-        boot.style.display = "none";
-        if (shell) { shell.style.transform = ""; shell.style.willChange = ""; }
-      }
-      if (done) {
-        var T = t - outroStart;                     // the seam is off-screen; fade the last sparks
-        c.style.opacity = String(Math.max(0, 1 - T / OUTRO));
-        if (T >= OUTRO) { cleanup(); return; }
-      }
-      requestAnimationFrame(draw);
+      if (t >= END) { finish(); return; }
+      requestAnimationFrame(frame);
     }
-    requestAnimationFrame(draw);
+    requestAnimationFrame(frame);
   }
 
-  // Fires once the build meter has filled (bar starts 1.85s, runs 0.62s, "100%" lands at 2.42s).
-  function boot() {
-    try { if (document.getElementById("boot")) window.setTimeout(run, 2600); } catch (e) {}
-  }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
-  else boot();
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+  else run();
 })();

@@ -194,58 +194,30 @@
   #mobile-menu, #mobile-menu-toggle { display: none !important; }
 }
 
-/* ---- Boot sequence overlay (pure CSS; JS only adds click-to-skip) ---- */
+/* ---- Intro overlay: dark veil for the "data tunnel" entrance (entrance.js) ---- */
 #boot {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #0a0a0a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* the compile-sweep entrance (entrance.js) drives the hide; effects.js keeps a safety fallback */
+  background: #060604;
+  /* entrance.js drives the hide; effects.js keeps a safety fallback */
 }
-#boot .boot-inner {
-  font-family: "Geist Mono", "Geist Mono Fallback", monospace;
-  font-size: 13px;
-  line-height: 2;
-  color: #d4af37;
-  width: min(420px, 84%);
-  padding: 24px;
+#boot .boot-skip-btn {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  z-index: 10001;
+  padding: 6px 12px;
+  border: 1px solid rgba(212, 175, 55, .25);
+  border-radius: 999px;
+  background: rgba(6, 6, 4, .6);
+  color: rgba(212, 175, 55, .75);
+  font: 12px/1 "Geist Mono", "Geist Mono Fallback", monospace;
+  cursor: pointer;
+  animation: bootFadeIn .4s ease .6s both;
+  transition: opacity .2s ease, color .2s, border-color .2s;
 }
-#boot .boot-line { opacity: 0; white-space: nowrap; animation: bootLine 0.16s ease forwards; }
-#boot .boot-line:nth-child(1) { animation-delay: 0.15s; }
-#boot .boot-line:nth-child(2) { animation-delay: 0.5s; }
-#boot .boot-line:nth-child(3) { animation-delay: 0.85s; }
-#boot .boot-line:nth-child(4) { animation-delay: 1.2s; }
-#boot .boot-line:nth-child(5) { animation-delay: 1.5s; }
-#boot .ok { color: #00c758; }
-#boot .boot-cur { animation: bootBlink 1s step-end infinite; }
-/* build meter: fills right before the compile sweep reveals the page */
-#boot .boot-build {
-  display: flex; align-items: center; gap: 10px;
-  margin-top: 10px; opacity: 0;
-  animation: bootLine 0.16s ease 1.75s forwards;
-}
-#boot .boot-bar {
-  flex: 1; height: 6px; border-radius: 3px;
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  overflow: hidden;
-}
-#boot .boot-bar-fill {
-  height: 100%; width: 0;
-  background: linear-gradient(90deg, #7d1f35, #d4af37);
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.65);
-  animation: bootBuild 0.62s ease-out 1.85s forwards;
-}
-#boot .boot-pct {
-  font-size: 11px; color: #d4af37; opacity: 0;
-  animation: bootLine 0.16s ease 2.42s forwards;
-}
-@keyframes bootBuild { to { width: 100%; } }
-#boot.boot-skip { animation: none; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease; }
-@keyframes bootLine { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-@keyframes bootHide { to { opacity: 0; visibility: hidden; pointer-events: none; } }
-@keyframes bootBlink { 50% { opacity: 0; } }
+#boot .boot-skip-btn:hover { color: #f9edc4; border-color: rgba(212, 175, 55, .6); }
+@keyframes bootFadeIn { from { opacity: 0; } to { opacity: 1; } }
+#boot.boot-skip { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease; }
 @media (prefers-reduced-motion: reduce) { #boot { display: none; } }
