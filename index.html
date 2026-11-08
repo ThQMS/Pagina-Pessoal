@@ -21,6 +21,8 @@
 <link href="assets/css/skills-globe.css?v=4" rel="stylesheet"/>
 <!-- effects.css — ambient dev/architecture effects: matrix rain, compile bar, blueprint spine, intro overlay -->
 <link href="assets/css/effects.css?v=8" rel="stylesheet"/>
+<!-- projects.css — "SaaS em produção" block + live header strips on the pinned project cards -->
+<link href="assets/css/projects.css?v=1" rel="stylesheet"/>
 
 <!-- import map — resolves the "three" ES module + addons from a CDN for the skills globe -->
 <script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script>
@@ -375,6 +377,39 @@
 <section class="min-h-screen py-20 px-6 lg:px-12" id="projects">
 <div class="max-w-6xl mx-auto">
 <div class="flex items-center gap-4 mb-12 animate-on-scroll" data-animate-on-scroll><i data-lucide="folder-open" class="w-6 h-6 text-orange-400"></i><h2 class="font-mono text-2xl lg:text-3xl font-bold"><span class="text-muted-foreground">$</span> ls -la ~/projects</h2></div>
+<div class="saas-block animate-on-scroll" data-animate-on-scroll>
+<div class="saas-head"><span class="saas-label">SaaS em produção</span><span class="saas-rule"></span><span class="saas-by">clientes pagando assinatura · via FusionPrime</span></div>
+<div class="saas-grid">
+<article class="saas-card">
+<a class="saas-media" href="https://visionhub.fusionprime.com.br" target="_blank" rel="noopener noreferrer" aria-label="Abrir o VisionHub">
+<div class="saas-bar"><i></i><i></i><i></i><span>visionhub.fusionprime.com.br</span></div>
+<img src="assets/images/saas/visionhub.webp" alt="VisionHub — catálogos de fábricas de móveis no celular do lojista" width="1331" height="648" loading="lazy" decoding="async">
+<span class="saas-sheen" aria-hidden="true"></span>
+</a>
+<div class="saas-body">
+<div class="saas-top"><h3>VisionHub</h3><span class="saas-status"><span class="saas-dot"></span><span>Em operação</span></span></div>
+<p class="saas-kicker">O catálogo da fábrica, na mão do lojista.</p>
+<p class="saas-desc">Para representantes de fábricas de móveis. Catálogos em alta resolução que abrem sem internet, tabelas de preço, orçamentos em PDF enviados pelo WhatsApp e acompanhamento dos pedidos.</p>
+<ul class="saas-checks"><li>Funciona offline, sincroniza quando houver conexão</li><li>Permissões por lojista e por vendedor</li><li>Orçamento em PDF com a marca do cliente</li></ul>
+<a class="saas-link" href="https://visionhub.fusionprime.com.br" target="_blank" rel="noopener noreferrer"><span>visionhub.fusionprime.com.br</span><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></a>
+</div>
+</article>
+<article class="saas-card">
+<a class="saas-media" href="https://pecunia.fusionprime.com.br" target="_blank" rel="noopener noreferrer" aria-label="Abrir o Pecunia">
+<div class="saas-bar"><i></i><i></i><i></i><span>pecunia.fusionprime.com.br</span></div>
+<img src="assets/images/saas/pecunia.webp" alt="Pecunia — controle de empréstimos e microcrédito" width="1312" height="646" loading="lazy" decoding="async">
+<span class="saas-sheen" aria-hidden="true"></span>
+</a>
+<div class="saas-body">
+<div class="saas-top"><h3>Pecunia</h3><span class="saas-status"><span class="saas-dot"></span><span>Em operação</span></span></div>
+<p class="saas-kicker">Controle de empréstimos para quem leva o próprio capital a sério.</p>
+<p class="saas-desc">Carteira de microcrédito, parcelas e fluxo de caixa num só lugar. Feito para financeiras e operadores de crédito que ainda dependiam de planilha.</p>
+<ul class="saas-checks"><li>Taxa de juros real, não só a nominal</li><li>Parcelas automáticas, com pagamento parcial</li><li>Painel com capital em circulação, recebíveis e inadimplência</li></ul>
+<a class="saas-link" href="https://pecunia.fusionprime.com.br" target="_blank" rel="noopener noreferrer"><span>pecunia.fusionprime.com.br</span><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></a>
+</div>
+</article>
+</div>
+</div>
 <div class="flex flex-col lg:flex-row gap-8 items-start">
 <div class="w-full lg:w-1/3 animate-on-scroll" data-animate-on-scroll>
 <div class="bg-[#1e1e1e] rounded-lg border border-dark-300 overflow-hidden shadow-lg">
@@ -390,6 +425,7 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 <div class="project-card bg-[#1e1e1e] border border-dark-300 rounded-lg p-5 flex flex-col justify-between hover:border-item-selected hover:shadow-lg transition-all group h-full relative overflow-hidden">
 <div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="circle" class="w-3 h-3 text-gray-600 fill-gray-600"></i></div>
+<div class="card-viz" data-viz="linkup" aria-hidden="true"><canvas></canvas></div>
 <a aria-label="Ver LinkUp" class="absolute inset-0 z-0" href="https://github.com/ThQMS/TCC---Linkup" rel="noopener noreferrer" target="_blank"></a>
 <div class="mb-4 relative z-10 pointer-events-none">
 <div class="flex items-center gap-2 mb-3 pointer-events-auto"><i data-lucide="book" class="w-4 h-4 text-gray-500"></i><a class="font-semibold text-orange-300 hover:underline cursor-pointer truncate text-base" href="https://github.com/ThQMS/TCC---Linkup" rel="noopener noreferrer" target="_blank">LinkUp</a><span class="ml-auto text-[10px] border border-dark-300 rounded-full px-2 py-0.5 text-gray-500 font-medium bg-dark-200">Público</span></div>
@@ -410,6 +446,7 @@
 </div>
 <div class="project-card bg-[#1e1e1e] border border-dark-300 rounded-lg p-5 flex flex-col justify-between hover:border-item-selected hover:shadow-lg transition-all group h-full relative overflow-hidden">
 <div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="circle" class="w-3 h-3 text-gray-600 fill-gray-600"></i></div>
+<div class="card-viz" data-viz="nexus" aria-hidden="true"><canvas></canvas></div>
 <a aria-label="Ver Nexus Gateway" class="absolute inset-0 z-0" href="https://github.com/ThQMS/Nexus-Gateway" rel="noopener noreferrer" target="_blank"></a>
 <div class="mb-4 relative z-10 pointer-events-none">
 <div class="flex items-center gap-2 mb-3 pointer-events-auto"><i data-lucide="book" class="w-4 h-4 text-gray-500"></i><a class="font-semibold text-orange-300 hover:underline cursor-pointer truncate text-base" href="https://github.com/ThQMS/Nexus-Gateway" rel="noopener noreferrer" target="_blank">Nexus Gateway</a><span class="ml-auto text-[10px] border border-dark-300 rounded-full px-2 py-0.5 text-gray-500 font-medium bg-dark-200">Público</span></div>
@@ -430,6 +467,7 @@
 </div>
 <div class="project-card bg-[#1e1e1e] border border-dark-300 rounded-lg p-5 flex flex-col justify-between hover:border-item-selected hover:shadow-lg transition-all group h-full relative overflow-hidden">
 <div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="circle" class="w-3 h-3 text-gray-600 fill-gray-600"></i></div>
+<div class="card-viz" data-viz="soundprint" aria-hidden="true"><canvas></canvas></div>
 <a aria-label="Ver Soundprint API" class="absolute inset-0 z-0" href="https://github.com/ThQMS/soundprint-api" rel="noopener noreferrer" target="_blank"></a>
 <div class="mb-4 relative z-10 pointer-events-none">
 <div class="flex items-center gap-2 mb-3 pointer-events-auto"><i data-lucide="book" class="w-4 h-4 text-gray-500"></i><a class="font-semibold text-orange-300 hover:underline cursor-pointer truncate text-base" href="https://github.com/ThQMS/soundprint-api" rel="noopener noreferrer" target="_blank">Soundprint API</a><span class="ml-auto text-[10px] border border-dark-300 rounded-full px-2 py-0.5 text-gray-500 font-medium bg-dark-200">Público</span></div>
@@ -450,6 +488,7 @@
 </div>
 <div class="project-card bg-[#1e1e1e] border border-dark-300 rounded-lg p-5 flex flex-col justify-between hover:border-item-selected hover:shadow-lg transition-all group h-full relative overflow-hidden">
 <div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="circle" class="w-3 h-3 text-gray-600 fill-gray-600"></i></div>
+<div class="card-viz" data-viz="ioc" aria-hidden="true"><canvas></canvas></div>
 <a aria-label="Ver IOC Enricher" class="absolute inset-0 z-0" href="https://github.com/ThQMS/Ioc-enricher" rel="noopener noreferrer" target="_blank"></a>
 <div class="mb-4 relative z-10 pointer-events-none">
 <div class="flex items-center gap-2 mb-3 pointer-events-auto"><i data-lucide="book" class="w-4 h-4 text-gray-500"></i><a class="font-semibold text-orange-300 hover:underline cursor-pointer truncate text-base" href="https://github.com/ThQMS/Ioc-enricher" rel="noopener noreferrer" target="_blank">IOC Enricher</a><span class="ml-auto text-[10px] border border-dark-300 rounded-full px-2 py-0.5 text-gray-500 font-medium bg-dark-200">Público</span></div>
@@ -468,6 +507,7 @@
 </div>
 <div class="project-card bg-[#1e1e1e] border border-dark-300 rounded-lg p-5 flex flex-col justify-between hover:border-item-selected hover:shadow-lg transition-all group h-full relative overflow-hidden">
 <div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="circle" class="w-3 h-3 text-gray-600 fill-gray-600"></i></div>
+<div class="card-viz" data-viz="abyssal" aria-hidden="true"><canvas></canvas></div>
 <a aria-label="Ver Abyssal Crown" class="absolute inset-0 z-0" href="https://github.com/ThQMS/Abyssal-Crown" rel="noopener noreferrer" target="_blank"></a>
 <div class="mb-4 relative z-10 pointer-events-none">
 <div class="flex items-center gap-2 mb-3 pointer-events-auto"><i data-lucide="book" class="w-4 h-4 text-gray-500"></i><a class="font-semibold text-orange-300 hover:underline cursor-pointer truncate text-base" href="https://github.com/ThQMS/Abyssal-Crown" rel="noopener noreferrer" target="_blank">Abyssal Crown</a><span class="ml-auto text-[10px] border border-dark-300 rounded-full px-2 py-0.5 text-gray-500 font-medium bg-dark-200">Público</span></div>
@@ -486,6 +526,7 @@
 </div>
 <div class="project-card bg-[#1e1e1e] border border-dark-300 rounded-lg p-5 flex flex-col justify-between hover:border-item-selected hover:shadow-lg transition-all group h-full relative overflow-hidden">
 <div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="circle" class="w-3 h-3 text-gray-600 fill-gray-600"></i></div>
+<div class="card-viz" data-viz="devpulse" aria-hidden="true"><canvas></canvas></div>
 <a aria-label="Ver Devpulse" class="absolute inset-0 z-0" href="https://github.com/ThQMS/Devpulse" rel="noopener noreferrer" target="_blank"></a>
 <div class="mb-4 relative z-10 pointer-events-none">
 <div class="flex items-center gap-2 mb-3 pointer-events-auto"><i data-lucide="book" class="w-4 h-4 text-gray-500"></i><a class="font-semibold text-orange-300 hover:underline cursor-pointer truncate text-base" href="https://github.com/ThQMS/Devpulse" rel="noopener noreferrer" target="_blank">Devpulse</a><span class="ml-auto text-[10px] border border-dark-300 rounded-full px-2 py-0.5 text-gray-500 font-medium bg-dark-200">Público</span></div>
@@ -683,7 +724,7 @@
 <!-- Lucide runtime (vendored locally) — renders every <i data-lucide> placeholder into an inline SVG; deferred so it never blocks first paint -->
 <script defer src="assets/js/lucide.min.js"></script>
 <!-- interactions.js — Lucide init, terminal typewriter, scroll reveals, nav buttons, contact form; deferred to run after lucide, in order -->
-<script defer src="assets/js/interactions.js?v=3"></script>
+<script defer src="assets/js/interactions.js?v=4"></script>
 <!-- effects.js — decorative ambient effects: matrix code rain, compile progress bar, blueprint spine -->
 <script defer src="assets/js/effects.js?v=6"></script>
 <!-- entrance.js — "data tunnel": warp through gold light streaks, the tunnel exit opens onto the site -->
@@ -691,6 +732,8 @@
 <!-- skills-globe.js — Three.js CSS3D sphere of Devicon skill icons (slow auto-rotate + drag); uses the import map above -->
 <!-- photo-depth.js — "3D photo": WebGL parallax on the profile photo driven by a precomputed depth map (Depth Anything v2) -->
 <script defer src="assets/js/photo-depth.js?v=1"></script>
+<!-- project-viz.js — small canvas animations on each pinned project card, one per project; run only while on screen -->
+<script defer src="assets/js/project-viz.js?v=1"></script>
 <script type="module" src="assets/js/skills-globe.js?v=6"></script>
 </body>
 </html>

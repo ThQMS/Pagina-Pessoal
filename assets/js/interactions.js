@@ -359,6 +359,20 @@
     "Commit Inicial (2021 — primeiro \"Hello World\")": "Initial Commit (2021 — first \"Hello World\")",
     // projects
     "Repositórios": "Repositories", "Projetos Fixados": "Pinned Projects", "Público": "Public",
+    "SaaS em produção": "SaaS in production", "clientes pagando assinatura · via FusionPrime": "paying subscribers · via FusionPrime",
+    "Em operação": "Live",
+    "O catálogo da fábrica, na mão do lojista.": "The factory's catalog, in the retailer's hand.",
+    "Para representantes de fábricas de móveis. Catálogos em alta resolução que abrem sem internet, tabelas de preço, orçamentos em PDF enviados pelo WhatsApp e acompanhamento dos pedidos.":
+      "For furniture-factory sales reps. High-resolution catalogs that open offline, price tables, PDF quotes sent over WhatsApp and order tracking.",
+    "Funciona offline, sincroniza quando houver conexão": "Works offline, syncs when a connection is back",
+    "Permissões por lojista e por vendedor": "Permissions per retailer and per salesperson",
+    "Orçamento em PDF com a marca do cliente": "PDF quotes with the client's own branding",
+    "Controle de empréstimos para quem leva o próprio capital a sério.": "Loan management for those who take their own capital seriously.",
+    "Carteira de microcrédito, parcelas e fluxo de caixa num só lugar. Feito para financeiras e operadores de crédito que ainda dependiam de planilha.":
+      "Microcredit portfolio, installments and cash flow in one place. Built for lenders and credit operators who still relied on spreadsheets.",
+    "Taxa de juros real, não só a nominal": "Real interest rate, not just the nominal one",
+    "Parcelas automáticas, com pagamento parcial": "Automatic installments, with partial payments",
+    "Painel com capital em circulação, recebíveis e inadimplência": "Dashboard with capital in circulation, receivables and defaults",
     "Plataforma bilateral de recrutamento com IA — busca semântica híbrida e cartas de apresentação geradas por IA.":
       "Two-sided AI recruitment platform — hybrid semantic search and AI-generated cover letters.",
     "API Gateway inspirado em produção: reverse proxy, autenticação JWT, rate limiting, métricas Prometheus e Docker Compose.":
